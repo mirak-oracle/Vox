@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TaskFlow - Organize Your Work Efficiently</title>
+    </style>
+    <style>
+
+    
+ 
+.text_box{
+    width: 90%;
+    color: black;
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+.text_box h1{
+    font-size: 50px;
+}
+.text_box p{
+    margin: 10px 0 40px;
+    font-size: 19px;
+    color: black;
+}
+    
+    
+    body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+        h1 {
+            text-align: center;
+        }
+        p {
+            text-align: justify;
+        }
+        .task-entry {
+            width: 100%;
+            padding: 10px;
+            box-sizing: border-box;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        .btn {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .btn:hover {
+            background-color: #0056b3;
+        }
+        .task-list {
+            width: 100%;
+            padding: 10px;
+            box-sizing: border-box;
+            margin-top: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            list-style-type: none;
+        }
+        .task-item {
+            margin-bottom: 5px;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #ccc;
+        }
+/* box 1 */
+
+.box{ animation: rotate 3s infinite; }
+@keyframes rotate{
+    0%{ transform: rotate(0deg);}
+    100%{ transform: rotate(360deg);}
+}
+.box{
+    height: 100px;
+    width: 100px;
+    background-color: yellow;
+    margin: 100px;
+}
+/* box 2 */
+.box2{
+    height: 100px;
+    width: 100px;
+    background-color: rgb(136, 40, 40);
+    margin: 100px;
+}    
+
+.box2{ animation: pulse 2s infinite; }
+@keyframes pulse{
+    0%, 100%{ transform: scale(1);}
+    50% { transform: scale(1.2);}
+
+}
+
+    /* Responsiveness */
+
+@media(max-width:500px) {
+   .row{
+    display: block;
+    margin: 10px 60px;
+   }
+   .container{
+    width: 100%;
+   }
+   .superb{
+    padding: 20px;
+   }
+   .pizza{
+    padding: 15px;
+   }
+   .copy{
+    padding: 10px;
+   }
+}
+</style>
+
+<body>
+    <div class="box">              
+        
+    </div>
+    <div class="description">
+        <p></div>
+        </p>
+    </div>
+
+
+    </div>
+    <div class="description">
+        <p></p>
+    </div>
+    <div class="box2">
+        
+    </div>
+    <div class="description">     
+        <p></p>
+    </div>
+
+<script> src="admin_panel.js"> </script> 
+<py-script><app class="py"></app></script import tkinter as tk
+from tkinter import messagebox
+
+# Function to add a new task
+def add_task():
+    task = task_entry.get()
+    if task:
+        task_listbox.insert(tk.END, task)
+        task_entry.delete(0, tk.END)
+    else:
+        messagebox.showwarning("Warning", "Please enter a task!")
+
+# Function to delete a selected task
+def delete_task():
+    try:
+        selected_task_index = task_listbox.curselection()[0]
+        task_listbox.delete(selected_task_index)
+    except IndexError:
+        messagebox.showwarning("Warning", "Please select a task to delete!")
+
+# Create the main window
+root = tk.Tk()
+root.title("Task Manager")
+
+# Create GUI elements
+task_entry = tk.Entry(root, width=40)
+task_entry.grid(row=0, column=0, padx=10, pady=10)
+
+add_button = tk.Button(root, text="Add Task", width=10, command=add_task)
+add_button.grid(row=0, column=1, padx=5, pady=10)
+
+delete_button = tk.Button(root, text="Delete Task", width=10, command=delete_task)
+delete_button.grid(row=0, column=2, padx=5, pady=10)
+
+task_listbox = tk.Listbox(root, width=50, height=10)
+task_listbox.grid(row=1, column=0, columnspan=3, padx=10, pady=10)
+
+# Start the GUI event loop
+root.mainloop()
+
+
+<body>
+    <div class="container">
+        <h1>TaskFlow</h1>
+         <P>              <h1></h1>TaskFlow is a comprehensive task manager software designed to streamline and optimize productivity in day-to-day activities.  
+        <p>Efficiently organize your work with our Task Manager software. With a simple and intuitive interface, you can easily add and delete tasks.To delete tasks you can double click the particular tasks,then automatically delete parmanently.</p>
+        TaskFlow allows users to set goals,define milestone towards their objectives. By visualizing their progress and celebrating achievements,users can stay motivated and focused on reaching their goals, whether personal or professional. TaskFlow is accessible across multiple devices and platforms, allowing users to access their tasks anytime,anywhere, whether in the office,at home,or on the road, users can stay connected and productive with TaskFlow.<p>
+        Key features of TaskFlow
+        <p>TaskFlow Uses an in-built security system in other to keep your tasks save and sound 
+        </p>Quick accessibility
+        <p>Advanced time  management tools 
+        </p>Goal setting and progress monitoring
+        <p>Organization
+        </p>Efficiency
+        <p>            
+
+            <p>     
+            </p>
+
+<form id="task-form">
+            <input type="text" id="task-entry" class="task-entry" placeholder="Enter task...">
+            <button type="submit" class="btn">Add Task</button>
+        </form>
+        <ul id="task-list" class="task-list"></ul>
+    </div>
+        <div class="about_us">
+        <h1>Our Mission</h1>
+          <div class="
+            <div class="our mission>
+                 <p>     <h1> At TaskFlow, our mission is to empower individuals and teams to achieve their goals,
+                maximize productivity, and unlock their full potential. <h2>
+            </div>
+    
+        <h4><p></pContact Us</h4>
+        <div class="pizza">
+            <h1>Contact Us</h1>
+             We're here to help. Reach out to us at  <a href="mailto:miraklegroupinfo@gmail.com">miraklegroupinfo@gmail.com</a></p>
+        </div>
+        <div class="follow">
+            <ul>
+                <li><a href="https://www.facebook.com/miraklegroup">Facebook</a></li>
+                <li><a href="https://www.instagram.com/mirakle.group">Instagram</a></li>
+                <li><a href="https://twitter.com/mirakle_group">Twitter</a></li>
+            </ul>
+        </div>
+
+        <div class="copy">
+            <p><span>&copy;</span>     TaskFlow. All rights reserved. Powered by WebWise, a proud subsidiary of Mirak Oracle, and a proud member of the Mirakle Group.</p>
+        </div>
+   
+    <script>
+        // JavaScript code for adding and deleting tasks
+        document.getElementById("task-form").addEventListener("submit", function(event) {
+            event.preventDefault();
+            var taskEntry = document.getElementById("task-entry").value.trim();
+            if (taskEntry !== "") {
+                var taskList = document.getElementById("task-list");
+                var taskItem = document.createElement("li");
+                taskItem.textContent = taskEntry;
+                taskItem.classList.add("task-item");
+                taskList.appendChild(taskItem);
+                document.getElementById("task-entry").value = "";
+            }
+        });
+
+        document.getElementById("task-list").addEventListener("click", function(event) {
+            if (event.target.classList.contains("task-item")) {
+                event.target.remove();
+            }
+        });
+    </script>
+</body>
+</html>
