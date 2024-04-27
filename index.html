@@ -4,6 +4,48 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Vox - Voice-Activated Assistant</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f0f0;
+      margin: 0;
+      padding: 20px;
+    }
+
+    h1 {
+      text-align: center;
+    }
+
+    button {
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+
+    #user-messages, #bot-responses {
+      margin-top: 20px;
+    }
+
+    .message {
+      padding: 10px;
+      margin-bottom: 10px;
+      border-radius: 5px;
+    }
+
+    .user-message {
+      background-color: #007bff;
+      color: #fff;
+    }
+
+    .bot-message {
+      background-color: #f1f1f1;
+      color: #333;
+    }
+  </style>
 </head>
 <body>
   <h1>Vox - Voice-Activated Assistant</h1>
@@ -33,24 +75,99 @@
 
     function displayUserMessage(message) {
       const userMessages = document.getElementById('user-messages');
-      userMessages.innerHTML += `<p>You: ${message}</p>`;
+      userMessages.innerHTML += `<p class="message user-message">You: ${message}</p>`;
     }
 
     function displayBotResponse(response) {
       const botResponses = document.getElementById('bot-responses');
-      botResponses.innerHTML += `<p>Vox: ${response}</p>`;
+      botResponses.innerHTML += `<p class="message bot-message">Vox: ${response}</p>`;
       speak(response);
     }
 
     function processCommand(command) {
-      // Here, you can integrate with Dialogflow or other natural language processing services
-      // For simplicity, I'll just provide a few example commands and responses
+      // Here are some example commands and responses
       switch (command.toLowerCase()) {
-        case 'hello':
+        case 'hello Vox':
           displayBotResponse('Hello! How can I assist you today?');
           break;
         case 'what is the weather today':
           displayBotResponse('The weather today is sunny with a high of 75 degrees Fahrenheit.');
+          break;
+        case 'tell me a joke':
+          displayBotResponse('Why don’t scientists trust atoms? Because they make up everything!');
+          break;
+case '' How are you?:
+          displayBotResponse(""I'm doing well, thank you for asking!" .");
+          break;
+case '' "What's your name? And tell me about Yourself":
+          displayBotResponse("Hello! My name is Vox. I am an advanced humanoid created and co-founded by Amedu Miracle, the chairman and CEO of Mirak Oracle, a subsidiary of the Mirakle Group. Alongside with co-founder, Amedu Emmanuel, the CEO of TechVanguard, we were developed to provide efficient and intelligent assistance in various tasks and inquiries. Whether you need help with day-to-day tasks, information retrieval, or even just a friendly chat, I'm here to help! With a strong foundation in artificial intelligence and natural language processing, I strive to provide accurate and helpful responses to your queries. Feel free to ask me anything!" .");
+          break;
+case '' What can you do?:
+          displayBotResponse(" I can assist you with tasks like providing information, setting reminders, playing music, and much more. Feel free to ask.");
+          break;
+case '' How to solve mathematics fast:
+          displayBotResponse("To solve mathematics problems quickly, practice mental math techniques, learn shortcuts for common calculations, and break down complex problems into simpler steps .");
+          break;
+case '' Who is Elon Musk:
+          displayBotResponse(" Elon Musk is a billionaire entrepreneur and CEO of Tesla, SpaceX, Neuralink, and The Boring Company. He is known for his ambitious projects in electric vehicles, space exploration, and neural technology..");
+          break;
+case '' What is AI::
+          displayBotResponse(" AI, or artificial intelligence, refers to the simulation of human intelligence in machines that are programmed to think, learn, and problem-solve like humans. AI encompasses various technologies such as machine learning, natural language processing, and computer vision.");
+          break;
+case '' some shocking facts we don't know::
+          displayBotResponse(" Did you know that there are more trees on Earth than stars in the Milky Way galaxy? Or that honey never spoils? These are just a couple of fascinating facts that might surprise you!".");
+          break;
+case '' What is humanoid:
+          displayBotResponse("A humanoid is a robot or artificial being that resembles or imitates human appearance, behavior, or cognition. Humanoids are designed to interact with humans and perform tasks in a human-like manner .");
+          break;
+case '' How to read and write fast:
+          displayBotResponse("To read and write quickly, practice speed reading techniques such as skimming and scanning, improve your vocabulary, and learn to summarize information effectively. For writing, outline your ideas before writing, practice typing efficiently, and proofread for errors later .");
+          break;
+case ''How to spell:
+          displayBotResponse(" To improve your spelling, practice regularly by reading and writing, use mnemonic devices to remember tricky words, and consult dictionaries or spelling apps for guidance. Additionally, pay attention to word patterns and common spelling rules.");
+         break;
+case ''How to cook fast :
+          displayBotResponse(" To cook quickly, choose recipes with minimal preparation and cooking time, organize your ingredients and equipment beforehand, and use time-saving cooking methods such as stir-frying, pressure cooking, or using a microwave.");
+          break;
+case ''How to become successful :
+          displayBotResponse("Success can be achieved through hard work, determination, and a clear vision of your goals. Set specific and achievable goals, develop a growth mindset, seek continuous learning and improvement, and persevere through challenges .");
+          break;
+case ''How to pray :
+          displayBotResponse(" Prayer is a personal and spiritual practice that varies across different beliefs and traditions. To pray, find a quiet and comfortable space, express gratitude, seek guidance, and connect with your faith or spirituality.");
+          break;
+case ''How to believe in Jesus :
+          displayBotResponse("Belief in Jesus is a personal journey that involves faith, reflection, and study of religious teachings. To believe in Jesus, explore his life and teachings through the Bible, pray for guidance and understanding, and seek fellowship with other believers .");
+          break;
+case ''About Earth :
+          displayBotResponse(" Earth is the third planet from the sun and the only known planet to support life. It has a diverse ecosystem with a variety of environments, including oceans, forests, deserts, and polar regions. Earth's atmosphere protects life by providing oxygen, regulating temperature, and shielding from harmful radiation.");
+          break;
+case ''About countries :
+          displayBotResponse("Countries are sovereign states with defined territories, governments, and populations. Each country has its own unique culture, history, and governance system. There are currently 195 countries recognized by the United Nations, each with its own flag, national anthem, and symbols .");
+          break;
+case ''Who is Miracle :
+          displayBotResponse("Miracle is described as the founder of CosmicCoin, a cryptocurrency, and the CEO and Founder of several other ventures under the Mirakle Group umbrella. Miracle is also involved in leading a team at Mirak Oracle, a tech organization within the Mirakle Group, focused on revolutionizing the digital landscape and shaping the future of technology. Miracle's background includes roles as an Engineer, businessperson, entrepreneur, investor, and developer, bringing a wealth of expertise to the table. .");
+          break;
+case '' Mirak Oracle:
+          displayBotResponse(" Mirak Oracle, a dynamic subsidiary of the esteemed Mirakle Group, stands at the forefront of technological innovation. With an impressive portfolio, including Wapchat, FlippyHero, SeekWise, and MirakleAi and more , we are dedicated to delivering cutting-edge solutions that redefine the digital landscape.
+Our team of skilled professionals tirelessly manages and controls the operations of our products, ensuring seamless functionality and user satisfaction. Combining expertise with a passion for excellence, we create transformative experiences that resonate with our global clientele. With a commitment to scalability, security, and user-centric design, Mirak Oracle continues to revolutionize the tech industry. Join us on this journey as we pave the way for a future driven by innovation and technological advancement..");
+          break;
+case '' Mirakle Group:
+          displayBotResponse("Mirakle Group is described as an esteemed organization dedicated to creating a space where individuals can share insights, explore diverse perspectives, and deepen their understanding of the world. It encompasses ventures such as CosmicCoin, E-martt Inc., MirakleAi, Wapchat, FlippyHero, SeekWise, and WebWise. The group focuses on leveraging cutting-edge technology and innovative features to enhance the sharing and dissemination of knowledge, with a commitment to excellence and fostering a culture of innovation within the industry. .");
+          break;
+  case 'open the pod bay doors':
+          displayBotResponse("I'm sorry, Dave. I'm afraid I can't do that.");
+          break;
+        case 'play some music':
+          displayBotResponse('Playing music...');
+          startPlayingMusic('http://listen.181fm.com/181-beat_128k.mp3?noPreRoll=true');
+          break;
+        case 'order pizza':
+          displayBotResponse('Placing pizza order...');
+          orderPizza();
+          break;
+        case 'set a timer for 10 minutes':
+          displayBotResponse('Timer set for 10 minutes.');
+          setTimer(10 * 60 * 1000); // 10 minutes in milliseconds
           break;
         default:
           displayBotResponse("I'm sorry, I didn't understand that command.");
@@ -62,6 +179,24 @@
       const utterance = new SpeechSynthesisUtterance(message);
       utterance.lang = 'en-US';
       speechSynthesis.speak(utterance);
+    }
+
+    function startPlayingMusic(url) {
+      // Code to start playing music (replace with actual implementation)
+      const audio = new Audio(url);
+      audio.play();
+    }
+
+    function orderPizza() {
+      // Code to link users to a website to order pizza (replace with actual implementation)
+      window.location.href = 'https://www.dominos.ng/?ref=biz.dominos.com';
+    }
+
+    function setTimer(duration) {
+      // Code to set a timer (replace with actual implementation)
+      setTimeout(() => {
+        displayBotResponse('Timer expired!');
+      }, duration);
     }
 
     document.getElementById('start-listening').addEventListener('click', startListening);
