@@ -10,5 +10,31 @@
 <body>
   <h1>Google Assistant Integration</h1>
   <!-- Add the Google Assistant chat widget -->
-  <df-messenger intent="WELCOME" chat-title="My Assistant" chat-icon="https://storage.googleapis.com/cloudprod-apiai/df-messenger/icon_2.png" agent-id="vox-jrv9" language-code="en"></df-messenger>
+  <df-messenger intent="WELCOME" chat-title="Vox" chat-icon="https://storage.googleapis.com/cloudprod-apiai/df-messenger/icon_2.png" agent-id="vox-jrv9" language-code="en"></df-messenger>
+
+  <script>
+    const recognition = new webkitSpeechRecognition();
+    recognition.lang = 'en-US';
+    recognition.interimResults = false;
+    recognition.maxAlternatives = 1;
+
+    recognition.onresult = (event) => {
+      const transcript = event.results[0][0].transcript;
+      sendMessage(transcript);
+    };
+
+    recognition.onerror = (event) => {
+      console.error('Speech recognition error:', event.error);
+    };
+
+    function startListening() {
+      recognition.start();
+    }
+
+    function sendMessage(message) {
+      const dfMessenger = document.querySelector('df-messenger');
+      dfMessenger.sendText(message);
+    }
+  </script>
 </body>
+</html>
