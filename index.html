@@ -3,14 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Vox</title>
-  <!-- Include the Google Assistant JavaScript SDK -->
-  <script src="https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1"></script>
+  <title>Vox - Voice-Activated Assistant</title>
 </head>
 <body>
-  <h1>Vox</h1>
-  <!-- Add the Google Assistant chat widget -->
-  <df-messenger intent="WELCOME" chat-title="Vox" chat-icon="https://storage.googleapis.com/cloudprod-apiai/df-messenger/icon_2.png" agent-id="vox-jrv9" language-code="en"></df-messenger>
+  <h1>Vox - Voice-Activated Assistant</h1>
+  <button id="start-listening">Start Listening</button>
+  <div id="user-messages"></div>
+  <div id="bot-responses"></div>
 
   <script>
     const recognition = new webkitSpeechRecognition();
@@ -20,7 +19,8 @@
 
     recognition.onresult = (event) => {
       const transcript = event.results[0][0].transcript;
-      sendMessage(transcript);
+      displayUserMessage(transcript);
+      processCommand(transcript);
     };
 
     recognition.onerror = (event) => {
@@ -31,10 +31,40 @@
       recognition.start();
     }
 
-    function sendMessage(message) {
-      const dfMessenger = document.querySelector('df-messenger');
-      dfMessenger.sendText(message);
+    function displayUserMessage(message) {
+      const userMessages = document.getElementById('user-messages');
+      userMessages.innerHTML += `<p>You: ${message}</p>`;
     }
+
+    function displayBotResponse(response) {
+      const botResponses = document.getElementById('bot-responses');
+      botResponses.innerHTML += `<p>Vox: ${response}</p>`;
+      speak(response);
+    }
+
+    function processCommand(command) {
+      // Here, you can integrate with Dialogflow or other natural language processing services
+      // For simplicity, I'll just provide a few example commands and responses
+      switch (command.toLowerCase()) {
+        case 'hello':
+          displayBotResponse('Hello! How can I assist you today?');
+          break;
+        case 'what is the weather today':
+          displayBotResponse('The weather today is sunny with a high of 75 degrees Fahrenheit.');
+          break;
+        default:
+          displayBotResponse("I'm sorry, I didn't understand that command.");
+          break;
+      }
+    }
+
+    function speak(message) {
+      const utterance = new SpeechSynthesisUtterance(message);
+      utterance.lang = 'en-US';
+      speechSynthesis.speak(utterance);
+    }
+
+    document.getElementById('start-listening').addEventListener('click', startListening);
   </script>
 </body>
 </html>
