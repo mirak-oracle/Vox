@@ -1,49 +1,56 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Vox - Humanoid Chatbot</title>
+  <title>Vox - Professional Humanoid Chatbot</title>
   <style>
     body {
       font-family: Arial, sans-serif;
       margin: 0;
       padding: 0;
-      background-color: #f2f2f2;
+      background-color: #f5f5f5;
     }
-    .chat-container {
+    .container {
       max-width: 600px;
       margin: 20px auto;
       background-color: #fff;
-      border-radius: 8px;
+      border-radius: 10px;
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
       overflow: hidden;
     }
-    .chat-header {
+    .header {
       background-color: #007bff;
       color: #fff;
-      padding: 10px 20px;
-      font-size: 18px;
+      padding: 20px;
+      text-align: center;
+      border-bottom: 2px solid #0056b3;
+      border-radius: 10px 10px 0 0;
+      font-size: 24px;
     }
     .chat-messages {
       padding: 20px;
       overflow-y: auto;
       max-height: 300px;
     }
-    .user-message {
-      margin-bottom: 10px;
-    }
-    .bot-message {
-      margin-bottom: 10px;
-      text-align: right;
-    }
     .message {
       padding: 10px;
-      border-radius: 5px;
-      background-color: #eaeaea;
-      display: inline-block;
-      max-width: 70%;
+      border-radius: 8px;
+      margin-bottom: 10px;
+    }
+    .user-message {
+      background-color: #e1f5fe;
+      margin-right: 20%;
+      margin-left: 5%;
+    }
+    .bot-message {
+      background-color: #e0e0e0;
+      text-align: right;
+      margin-left: 20%;
+      margin-right: 5%;
+    }
+    .message-text {
+      font-size: 16px;
     }
     .user-input {
       width: calc(100% - 40px);
@@ -64,16 +71,19 @@
   </style>
 </head>
 <body>
-  <div class="chat-container">
-    <div class="chat-header">Vox - Humanoid Chatbot</div>
+  <div class="container">
+    <div class="header">Vox - Professional Humanoid Chatbot</div>
     <div class="chat-messages" id="chat-messages"></div>
     <input type="text" class="user-input" id="user-input" placeholder="Type your message...">
     <button class="send-button" onclick="sendMessage()">Send</button>
+    <!-- Add audio element for speech synthesis -->
+    <audio id="speech"></audio>
   </div>
 
   <script>
     const chatMessages = document.getElementById('chat-messages');
     const userInput = document.getElementById('user-input');
+    const speech = document.getElementById('speech');
 
     function sendMessage() {
       const userMessage = userInput.value.trim();
@@ -83,6 +93,8 @@
         setTimeout(() => {
           const botMessage = 'Hello! How can I assist you today?';
           displayMessage(botMessage, 'bot');
+          // Speak the bot's message
+          speakMessage(botMessage);
         }, 500);
         userInput.value = '';
       }
@@ -91,7 +103,7 @@
     function displayMessage(message, sender) {
       const messageContainer = document.createElement('div');
       const messageElement = document.createElement('div');
-      messageElement.classList.add('message');
+      messageElement.classList.add('message', 'message-text');
       messageElement.textContent = message;
       messageContainer.appendChild(messageElement);
       if (sender === 'user') {
@@ -103,6 +115,31 @@
       // Scroll to bottom
       chatMessages.scrollTop = chatMessages.scrollHeight;
     }
-  </script>
-</body>
-</html>
+
+    function speakMessage(message) {
+      // Using Google Cloud Text-to-Speech API (replace with your API key)
+      const apiKey = 'YOUR_API_KEY';
+      const apiUrl = `https://texttospeech.googleapis.com/v1/text:synthesize?key=${apiKey}`;
+      const requestData = JSON.stringify({
+        input: { text: message },
+        voice: { languageCode: 'en-US', ssmlGender: 'NEUTRAL' },
+        audioConfig: { audioEncoding: 'MP3' }
+      });
+
+      fetch(apiUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: requestData
+      })
+      .then(response => response.json())
+      .then(data => {
+        const audioContent = data.audioContent;
+        const audioBlob = base64toBlob(audioContent, 'audio/mp3');
+        const audioUrl = URL.createObjectURL(audioBlob);
+        speech.src = audioUrl;
+        speech.play();
+      })
+      .catch(error => console.error('Error:', error));
+    }
+
+    function base64toBlob
