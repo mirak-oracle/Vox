@@ -5,51 +5,73 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Vox - Voice-Activated Assistant</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f0f0f0;
-      margin: 0;
-      padding: 20px;
+    /* Existing CSS styles */
+
+    /* New CSS styles for facial features */
+    #face {
+      position: relative;
+      width: 200px;
+      height: 200px;
     }
 
-    h1 {
-      text-align: center;
+    .eye {
+      position: absolute;
+      width: 30px;
+      height: 30px;
+      background-color: white;
+      border-radius: 50%;
     }
 
-    button {
-      background-color: #007bff;
-      color: #fff;
-      border: none;
-      padding: 10px 20px;
-      font-size: 16px;
-      cursor: pointer;
-      border-radius: 5px;
+    .left-eye {
+      top: 40px;
+      left: 50px;
     }
 
-    #user-messages, #bot-responses {
-      margin-top: 20px;
+    .right-eye {
+      top: 40px;
+      right: 50px;
     }
 
-    .message {
-      padding: 10px;
-      margin-bottom: 10px;
-      border-radius: 5px;
+    .eyebrow {
+      position: absolute;
+      width: 50px;
+      height: 10px;
+      background-color: brown;
     }
 
-    .user-message {
-      background-color: #007bff;
-      color: #fff;
+    .left-eyebrow {
+      top: 30px;
+      left: 35px;
+      transform: rotate(-10deg);
     }
 
-    .bot-message {
-      background-color: #f1f1f1;
-      color: #333;
+    .right-eyebrow {
+      top: 30px;
+      right: 35px;
+      transform: rotate(10deg);
+    }
+
+    .mouth {
+      position: absolute;
+      width: 100px;
+      height: 20px;
+      background-color: red;
+      bottom: 50px;
+      left: 50px;
+      border-radius: 50px/20px;
     }
   </style>
 </head>
 <body>
   <h1>Vox - Voice-Activated Assistant</h1>
   <button id="start-listening">Start Listening</button>
+  <div id="face">
+    <div class="eye left-eye"></div>
+    <div class="eye right-eye"></div>
+    <div class="eyebrow left-eyebrow"></div>
+    <div class="eyebrow right-eyebrow"></div>
+    <div class="mouth"></div>
+  </div>
   <div id="user-messages"></div>
   <div id="bot-responses"></div>
 
