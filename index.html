@@ -252,9 +252,10 @@
           displayBotResponse('Placing pizza order...');
           orderPizza();
           break;
-          case 'get latest news':
-          getLatestNews();
-          break;
+          case 'get the latest news':
+case 'what\'s happening in the world':
+  getLatestNews();
+  break;
         default:
           displayBotResponse("I'm sorry, I didn't understand that command.");
           break;
@@ -284,25 +285,26 @@
         displayBotResponse('Timer expired!');
       }, duration);
     }
-    News() {
-      const apiKey = '6ccda60a3c9b412fb1bf46b1584f521a';
-      const url = 'https://newsapi.org/v2/everything';
-
-      fetch(`${url}?q=&from=2024-05-18&sortBy=popularity&apiKey=${apiKey}`)
-        .then(response => response.json())
-        .then(data => {
-          const articles = data.articles;
-          const newsList = document.getElementById('news-list');
-          newsList.innerHTML = ''; // Clear previous news
-
-          articles.forEach(article => {
-            const listItem = document.createElement('li');
-            listItem.innerHTML = `<a href="${article.url}" target="_blank">${article.title}</a>`;
-            newsList.appendChild(listItem);
-          });
-        })
-        .catch(error => {
-          console.error('Error fetching news:', error);
+    // Function to fetch the latest news
+function getLatestNews() {
+  const apiKey = '6ccda60a3c9b412fb1bf46b1584f521a';
+  const url = `https://newsapi.org/v2/top-headlines?country=us&apiKey=${6ccda60a3c9b412fb1bf46b1584f521a}`;
+  
+  fetch(url)
+    .then(response => response.json())
+    .then(data => {
+      const newsList = document.getElementById('news-list');
+      newsList.innerHTML = '';
+      data.articles.forEach(article => {
+        const listItem = document.createElement('li');
+        listItem.textContent = article.title;
+        newsList.appendChild(listItem);
+      });
+    })
+    .catch(error => {
+      console.error('Error fetching news:', error);
+    });
+}
           displayBotResponse('Sorry, I couldn\'t fetch the latest news at the moment.');
         });
     }
