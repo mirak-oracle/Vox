@@ -4,6 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Vox - Voice-Activated Assistant</title>
+  <!-- Include Porcupine library -->
+  <script src="https://cdn.jsdelivr.net/npm/@picovoice/porcupine-web-voice-processor"></script>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -136,7 +138,17 @@
     recognition.lang = 'en-US';
     recognition.interimResults = false;
     recognition.maxAlternatives = 1;
+    
+    // When Porcupine detects the wake word, stop Porcupine and start speech recognition
+    porcupine.onWakeWordDetected = () => {
+      porcupine.stop();
+      startListening();
+    };
 
+    // Initialize Porcupine with the wake word "Alexa"
+    const porcupine = Porcupine.create([{builtin: 'alexa'}]);
+
+    // St
     recognition.onresult = (event) => {
       const transcript = event.results[0][0].transcript;
       displayUserMessage(transcript);
