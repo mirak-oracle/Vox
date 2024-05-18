@@ -127,6 +127,7 @@
   </div>
   <div id="user-messages"></div>
   <div id="bot-responses"></div>
+  <ul id="news-list"></ul>
 
   <script>
     const recognition = new webkitSpeechRecognition();
@@ -169,13 +170,12 @@
     }
 
     function processCommand(command) {
-      // Here are some example commands and responses
       switch (command.toLowerCase()) {
         case 'hello':
-          displayBotResponse('Hello!I am Vox  How can I assist you today?');
+          displayBotResponse('Hello! I am Vox. How can I assist you today?');
           break;
         case 'what is the weather today':
-          displayBotResponse('The weather today is sunny with a high of 75 degrees Fahrenheit.');
+          fetchWeather();
           break;
         case 'tell me a joke':
           displayBotResponse("Why don’t scientists trust atoms? Because they make up everything!");
@@ -252,10 +252,19 @@
           displayBotResponse('Placing pizza order...');
           orderPizza();
           break;
-          case 'get the latest news':
-case 'what\'s happening in the world':
-  getLatestNews();
-  break;
+        case 'get the latest news':
+        case 'what\'s happening in the world':
+          getLatestNews();
+          break;
+        case 'get weather':
+          fetchWeather();
+          break;
+        case 'show trends':
+          showTrends();
+          break;
+        case 'world news':
+          showWorldNews();
+          break;
         default:
           displayBotResponse("I'm sorry, I didn't understand that command.");
           break;
@@ -278,32 +287,54 @@ case 'what\'s happening in the world':
       // Code to link users to a website to order pizza (replace with actual implementation)
       window.location.href = 'https://www.dominos.ng/?ref=biz.dominos.com';
     }
-    
-// Function to fetch the latest global news
-function getLatestNews() {
-  const apiKey = '6ccda60a3c9b412fb1bf46b1584f521a'; // Replace 'YOUR_NEWSAPI_API_KEY' with your actual API key
-  const url = `https://newsapi.org/v2/top-headlines?language=en&apiKey=${apiKey}`;
-  
-  fetch(url)
-    .then(response => response.json())
-    .then(data => {
-      const newsList = document.getElementById('news-list');
-      newsList.innerHTML = '';
-      data.articles.forEach(article => {
-        const listItem = document.createElement('li');
-        listItem.textContent = article.title;
-        newsList.appendChild(listItem);
-      });
-    })
-    .catch(error => {
-      console.error('Error fetching news:', error);
-    });
-    
-}
-document.getElementById('start-listening').addEventListener('click', startListening);
 
+    function setTimer(duration) {
+      // Code to set a timer (replace with actual implementation)
+      setTimeout(() => {
+        displayBotResponse('Timer expired!');
+      }, duration);
+    }
+
+    // Function to fetch the latest news
+    function getLatestNews() {
+      const apiKey = 'YOUR_NEWSAPI_API_KEY'; // Replace with your actual NewsAPI API key
+      const url = `https://newsapi.org/v2/top-headlines?language=en&apiKey=${apiKey}`;
+      
+      fetch(url)
+        .then(response => response.json())
+        .then(data => {
+          const newsList = document.getElementById('news-list');
+          newsList.innerHTML = '';
+          data.articles.forEach(article => {
+            const listItem = document.createElement('li');
+            listItem.textContent = article.title;
+            newsList.appendChild(listItem);
+          });
+        })
+        .catch(error => {
+          console.error('Error fetching news:', error);
+        });
+    }
+
+    // Function to fetch weather information
+    function fetchWeather() {
+      displayBotResponse("Fetching weather information...");
+      window.open('https://worldweather.wmo.int/en/home.html', '_blank');
+    }
+
+    // Function to show Google trends
+    function showTrends() {
+      displayBotResponse("Fetching trending searches...");
+      window.open('https://trends.google.com/trends/', '_blank');
+    }
+
+    // Function to show world news from BBC
+    function showWorldNews() {
+      displayBotResponse("Fetching world news...");
+      window.open('https://www.bbc.com/news/world', '_blank');
+    }
+
+    document.getElementById('start-listening').addEventListener('click', startListening);
   </script>
 </body>
 </html>
-
-    
