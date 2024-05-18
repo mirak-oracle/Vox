@@ -285,6 +285,7 @@ case 'what\'s happening in the world':
         displayBotResponse('Timer expired!');
       }, duration);
     }
+
     // Function to fetch the latest news
 function getLatestNews() {
   const apiKey = '6ccda60a3c9b412fb1bf46b1584f521a';
@@ -300,6 +301,7 @@ function getLatestNews() {
         listItem.textContent = article.title;
         newsList.appendChild(listItem);
       });
+
     })
     .catch(error => {
       console.error('Error fetching news:', error);
@@ -308,8 +310,8 @@ function getLatestNews() {
           displayBotResponse('Sorry, I couldn\'t fetch the latest news at the moment.');
         });
     }
+  document.getElementById('start-listening').addEventListener('click', startListening);
 
-    document.getElementById('start-listening').addEventListener('click', startListening);
   </script>
 </body>
 </html>
