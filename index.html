@@ -5,16 +5,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Vox - Voice-Activated Assistant</title>
 
-
-  <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-ZY9S9E5VGC"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-ZY9S9E5VGC');
-</script>
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZY9S9E5VGC"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-ZY9S9E5VGC');
+  </script>
+  
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -22,12 +21,10 @@
       margin: 0;
       padding: 20px;
     }
-
     h1 {
       text-align: center;
       color: #333;
     }
-
     button {
       background-color: #007bff;
       color: #fff;
@@ -38,32 +35,25 @@
       border-radius: 5px;
       transition: background-color 0.3s ease;
     }
-
     button:hover {
       background-color: #0056b3;
     }
-
     #user-messages, #bot-responses {
       margin-top: 20px;
     }
-
     .message {
       padding: 10px;
       margin-bottom: 10px;
       border-radius: 5px;
     }
-
     .user-message {
       background-color: #007bff;
       color: #fff;
     }
-
     .bot-message {
       background-color: #f1f1f1;
       color: #333;
     }
-
-    /* New CSS styles for facial features */
     #face {
       position: relative;
       width: 200px;
@@ -71,7 +61,6 @@
       margin: 0 auto;
       margin-bottom: 20px;
     }
-
     .eye {
       position: absolute;
       width: 30px;
@@ -80,17 +69,14 @@
       border-radius: 50%;
       border: 2px solid #333;
     }
-
     .left-eye {
       top: 40px;
       left: 50px;
     }
-
     .right-eye {
       top: 40px;
       right: 50px;
     }
-
     .eyebrow {
       position: absolute;
       width: 50px;
@@ -98,19 +84,16 @@
       background-color: brown;
       border-radius: 20px;
     }
-
     .left-eyebrow {
       top: 30px;
       left: 35px;
       transform: rotate(-10deg);
     }
-
     .right-eyebrow {
       top: 30px;
       right: 35px;
       transform: rotate(10deg);
     }
-
     .mouth {
       position: absolute;
       width: 100px;
@@ -122,7 +105,6 @@
       transform-origin: 50% 50%;
       transition: transform 0.2s ease;
     }
-
     .speaking {
       transform: scaleY(1.2);
     }
@@ -278,6 +260,27 @@
         case 'world news':
           showWorldNews();
           break;
+        case 'create reminder':
+          displayBotResponse("Please provide the details for the reminder.");
+          recognition.onresult = (event) => {
+            const reminderDetails = event.results[0][0].transcript;
+            createReminder(reminderDetails);
+          };
+          break;
+        case 'add event to calendar':
+          displayBotResponse("Please provide the event details.");
+          recognition.onresult = (event) => {
+            const eventDetails = event.results[0][0].transcript;
+            addEventToCalendar(eventDetails);
+          };
+          break;
+        case 'get directions':
+          displayBotResponse("Please provide the destination.");
+          recognition.onresult = (event) => {
+            const destination = event.results[0][0].transcript;
+            getDirections(destination);
+          };
+          break;
         default:
           displayBotResponse("I'm sorry, I didn't understand that command.");
           break;
@@ -291,24 +294,20 @@
     }
 
     function startPlayingMusic(url) {
-      // Code to start playing music (replace with actual implementation)
       const audio = new Audio(url);
       audio.play();
     }
 
     function orderPizza() {
-      // Code to link users to a website to order pizza (replace with actual implementation)
       window.location.href = 'https://www.dominos.ng/?ref=biz.dominos.com';
     }
 
     function setTimer(duration) {
-      // Code to set a timer (replace with actual implementation)
       setTimeout(() => {
         displayBotResponse('Timer expired!');
       }, duration);
     }
 
-    // Function to fetch the latest news
     function getLatestNews() {
       const apiKey = 'YOUR_NEWSAPI_API_KEY'; // Replace with your actual NewsAPI API key
       const url = `https://newsapi.org/v2/top-headlines?language=en&apiKey=${apiKey}`;
@@ -329,22 +328,34 @@
         });
     }
 
-    // Function to fetch weather information
     function fetchWeather() {
       displayBotResponse("Fetching weather information...");
       window.open('https://worldweather.wmo.int/en/home.html', '_blank');
     }
 
-    // Function to show Google trends
     function showTrends() {
       displayBotResponse("Fetching trending searches...");
       window.open('https://trends.google.com/trends/', '_blank');
     }
 
-    // Function to show world news from BBC
     function showWorldNews() {
       displayBotResponse("Fetching world news...");
       window.open('https://www.bbc.com/news/world', '_blank');
+    }
+
+    function createReminder(details) {
+      displayBotResponse(`Reminder created: ${details}`);
+      // Logic to create reminder
+    }
+
+    function addEventToCalendar(details) {
+      displayBotResponse(`Event added to calendar: ${details}`);
+      // Logic to add event to calendar
+    }
+
+    function getDirections(destination) {
+      displayBotResponse(`Fetching directions to ${destination}...`);
+      window.open(`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(destination)}`, '_blank');
     }
 
     document.getElementById('start-listening').addEventListener('click', startListening);
