@@ -164,201 +164,311 @@
       }, 200);
     }
 
-    function processCommand(command) {
-      switch (command.toLowerCase()) {
+      function processCommand(command) {
+    switch (command.toLowerCase()) {
         case 'hello':
-          displayBotResponse('Hello! I am Vox. How can I assist you today?');
-          break;
+            displayBotResponse('Hello! I am Vox. How can I assist you today?');
+            break;
         case 'what is the weather today':
-          fetchWeather();
-          break;
+            fetchWeather();
+            break;
         case 'tell me a joke':
-          displayBotResponse("Why don’t scientists trust atoms? Because they make up everything!");
-          break;
+            displayBotResponse("Why don’t scientists trust atoms? Because they make up everything!");
+            break;
         case 'how are you':
-          displayBotResponse("I'm doing well, thank you for asking!");
-          break;
+            displayBotResponse("I'm doing well, thank you for asking!");
+            break;
         case 'tell me about yourself':
-          displayBotResponse("Hello! My name is Vox. A cutting-edge hybrid humanoid and intelligent assistant, activated by advanced smart technology created and co-founded by Amedu Miracle, the chairman and CEO of Mirak Oracle, a subsidiary of the Mirakle Group. Alongside with co-founder, Amedu Emmanuel, the CEO of TechVanguard, we were developed to provide efficient and intelligent assistance in various tasks and inquiries. Whether you need help with day-to-day tasks, information retrieval, or even just a friendly chat, I'm here to help! With a strong foundation in artificial intelligence and natural language processing, I strive to provide accurate and helpful responses to your queries. Feel free to ask me anything!");
-          break;
+            displayBotResponse("Hello! My name is Vox. A cutting-edge hybrid humanoid and intelligent assistant, activated by advanced smart technology created and co-founded by Amedu Miracle, the chairman and CEO of Mirak Oracle, a subsidiary of the Mirakle Group. Alongside with co-founder, Amedu Emmanuel, the CEO of TechVanguard, we were developed to provide efficient and intelligent assistance in various tasks and inquiries. Whether you need help with day-to-day tasks, information retrieval, or even just a friendly chat, I'm here to help! With a strong foundation in artificial intelligence and natural language processing, I strive to provide accurate and helpful responses to your queries. Feel free to ask me anything!");
+            break;
         case 'what can you do':
-          displayBotResponse("I can assist you with tasks like providing information, setting reminders, playing music, and much more. Feel free to ask.");
-          break;
+            displayBotResponse("I can assist you with tasks like providing information, setting reminders, playing music, and much more. Feel free to ask.");
+            break;
         case 'how to solve mathematics fast':
-          displayBotResponse("To solve mathematics problems quickly, practice mental math techniques, learn shortcuts for common calculations, and break down complex problems into simpler steps.");
-          break;
+            displayBotResponse("To solve mathematics problems quickly, practice mental math techniques, learn shortcuts for common calculations, and break down complex problems into simpler steps.");
+            break;
         case 'who is elon musk':
-          displayBotResponse("Elon Musk is a billionaire entrepreneur and CEO of Tesla, SpaceX, Neuralink, and The Boring Company. He is known for his ambitious projects in electric vehicles, space exploration, and neural technology.");
-          break;
+            displayBotResponse("Elon Musk is a billionaire entrepreneur and CEO of Tesla, SpaceX, Neuralink, and The Boring Company. He is known for his ambitious projects in electric vehicles, space exploration, and neural technology.");
+            break;
         case 'what is ai':
-          displayBotResponse("AI, or artificial intelligence, refers to the simulation of human intelligence in machines that are programmed to think, learn, and problem-solve like humans. AI encompasses various technologies such as machine learning, natural language processing, and computer vision.");
-          break;
+            displayBotResponse("AI, or artificial intelligence, refers to the simulation of human intelligence in machines that are programmed to think, learn, and problem-solve like humans. AI encompasses various technologies such as machine learning, natural language processing, and computer vision.");
+            break;
         case 'some shocking facts we don\'t know':
-          displayBotResponse("Did you know that there are more trees on Earth than stars in the Milky Way galaxy? Or that honey never spoils? These are just a couple of fascinating facts that might surprise you!");
-          break;
+            displayBotResponse("Did you know that there are more trees on Earth than stars in the Milky Way galaxy? Or that honey never spoils? These are just a couple of fascinating facts that might surprise you!");
+            break;
         case 'what is humanoid':
-          displayBotResponse("A humanoid is a robot or artificial being that resembles or imitates human appearance, behavior, or cognition. Humanoids are designed to interact with humans and perform tasks in a human-like manner.");
-          break;
+            displayBotResponse("A humanoid is a robot or artificial being that resembles or imitates human appearance, behavior, or cognition. Humanoids are designed to interact with humans and perform tasks in a human-like manner.");
+            break;
         case 'how to read and write fast':
-          displayBotResponse("To read and write quickly, practice speed reading techniques such as skimming and scanning, improve your vocabulary, and learn to summarize information effectively. For writing, outline your ideas before writing, practice typing efficiently, and proofread for errors later.");
-          break;
+            displayBotResponse("To read and write quickly, practice speed reading techniques such as skimming and scanning, improve your vocabulary, and learn to summarize information effectively. For writing, outline your ideas before writing, practice typing efficiently, and proofread for errors later.");
+            break;
         case 'how to spell':
-          displayBotResponse("To improve your spelling, practice regularly by reading and writing, use mnemonic devices to remember tricky words, and consult dictionaries or spelling apps for guidance. Additionally, pay attention to word patterns and common spelling rules.");
-          break;
+            displayBotResponse("To improve your spelling, practice regularly by reading and writing, use mnemonic devices to remember tricky words, and consult dictionaries or spelling apps for guidance. Additionally, pay attention to word patterns and common spelling rules.");
+            break;
         case 'how to cook fast':
-          displayBotResponse("To cook quickly, choose recipes with minimal preparation and cooking time, organize your ingredients and equipment beforehand, and use time-saving cooking methods such as stir-frying, pressure cooking, or using a microwave.");
-          break;
+            displayBotResponse("To cook quickly, choose recipes with minimal preparation and cooking time, organize your ingredients and equipment beforehand, and use time-saving cooking methods such as stir-frying, pressure cooking, or using a microwave.");
+            break;
         case 'how to become successful':
-          displayBotResponse("Success can be achieved through hard work, determination, and a clear vision of your goals. Set specific and achievable goals, develop a growth mindset, seek continuous learning and improvement, and persevere through challenges.");
-          break;
+            displayBotResponse("Success can be achieved through hard work, determination, and a clear vision of your goals. Set specific and achievable goals, develop a growth mindset, seek continuous learning and improvement, and persevere through challenges.");
+            break;
         case 'how to pray':
-          displayBotResponse("Prayer is a personal and spiritual practice that varies across different beliefs and traditions. To pray, find a quiet and comfortable space, express gratitude, seek guidance, and connect with your faith or spirituality.");
-          break;
+            displayBotResponse("Prayer is a personal and spiritual practice that varies across different beliefs and traditions. To pray, find a quiet and comfortable space, express gratitude, seek guidance, and connect with your faith or spirituality.");
+            break;
         case 'how to believe in jesus':
-          displayBotResponse("Belief in Jesus is a personal journey that involves faith, reflection, and study of religious teachings. To believe in Jesus, explore his life and teachings through the Bible, pray for guidance and understanding, and seek fellowship with other believers.");
-          break;
+            displayBotResponse("Belief in Jesus is a personal journey that involves faith, reflection, and study of religious teachings. To believe in Jesus, explore his life and teachings through the Bible, pray for guidance and understanding, and seek fellowship with other believers.");
+            break;
         case 'about earth':
-          displayBotResponse("Earth is the third planet from the sun and the only known planet to support life. It has a diverse ecosystem with a variety of environments, including oceans, forests, deserts, and polar regions. Earth's atmosphere protects life by providing oxygen, regulating temperature, and shielding from harmful radiation.");
-          break;
+            displayBotResponse("Earth is the third planet from the sun and the only known planet to support life. It has a diverse ecosystem with a variety of environments, including oceans, forests, deserts, and polar regions. Earth's atmosphere protects life by providing oxygen, regulating temperature, and shielding from harmful radiation.");
+            break;
         case 'about countries':
-          displayBotResponse("Countries are sovereign states with defined territories, governments, and populations. Each country has its own unique culture, history, and governance system. There are currently 195 countries recognized by the United Nations, each with its own flag, national anthem, and symbols.");
-          break;
+            displayBotResponse("Countries are sovereign states with defined territories, governments, and populations. Each country has its own unique culture, history, and governance system. There are currently 195 countries recognized by the United Nations, each with its own flag, national anthem, and symbols.");
+            break;
         case 'who is miracle':
-          displayBotResponse("Miracle is described as the founder of CosmicCoin, a cryptocurrency, and the CEO and Founder of several other ventures under the Mirakle Group umbrella. Miracle is also involved in leading a team at Mirak Oracle, a tech organization within the Mirakle Group, focused on revolutionizing the digital landscape and shaping the future of technology. Miracle's background includes roles as an Engineer, businessperson, entrepreneur, investor, and developer, bringing a wealth of expertise to the table.");
-          break;
+            displayBotResponse("Miracle is described as the founder of CosmicCoin, a cryptocurrency, and the CEO and Founder of several other ventures under the Mirakle Group umbrella. Miracle is also involved in leading a team at Mirak Oracle, a tech organization within the Mirakle Group, focused on revolutionizing the digital landscape and shaping the future of technology. Miracle's background includes roles as an Engineer, businessperson, entrepreneur, investor, and developer, bringing a wealth of expertise to the table.");
+            break;
         case 'mirak oracle':
-          displayBotResponse("Mirak Oracle, a dynamic subsidiary of the esteemed Mirakle Group, stands at the forefront of technological innovation. With an impressive portfolio, including Wapchat, FlippyHero, SeekWise, and MirakleAi and more , we are dedicated to delivering cutting-edge solutions that redefine the digital landscape. Our team of skilled professionals tirelessly manages and controls the operations of our products, ensuring seamless functionality and user satisfaction. Combining expertise with a passion for excellence, we create transformative experiences that resonate with our global clientele. With a commitment to scalability, security, and user-centric design, Mirak Oracle continues to revolutionize the tech industry. Join us on this journey as we pave the way for a future driven by innovation and technological advancement.");
-          break;
+            displayBotResponse("Mirak Oracle, a dynamic subsidiary of the esteemed Mirakle Group, stands at the forefront of technological innovation. With an impressive portfolio, including Wapchat, FlippyHero, SeekWise, and MirakleAi and more , we are dedicated to delivering cutting-edge solutions that redefine the digital landscape. Our team of skilled professionals tirelessly manages and controls the operations of our products, ensuring seamless functionality and user satisfaction. Combining expertise with a passion for excellence, we create transformative experiences that resonate with our global clientele. With a commitment to scalability, security, and user-centric design, Mirak Oracle continues to revolutionize the tech industry. Join us on this journey as we pave the way for a future driven by innovation and technological advancement.");
+            break;
         case 'miracle group':
-          displayBotResponse("Mirakle Group is described as an esteemed organization dedicated to creating a space where individuals can share insights, explore diverse perspectives, and deepen their understanding of the world. It encompasses ventures such as CosmicCoin, E-martt Inc., MirakleAi, Wapchat, FlippyHero, SeekWise, and WebWise. The group focuses on leveraging cutting-edge technology and innovative features to enhance the sharing and dissemination of knowledge, with a commitment to excellence and fostering a culture of innovation within the industry.");
-          break;
+            displayBotResponse("Mirakle Group is described as an esteemed organization dedicated to creating a space where individuals can share insights, explore diverse perspectives, and deepen their understanding of the world. It encompasses ventures such as CosmicCoin, E-martt Inc., MirakleAi, Wapchat, FlippyHero, SeekWise, and WebWise. The group focuses on leveraging cutting-edge technology and innovative features to enhance the sharing and dissemination of knowledge, with a commitment to excellence and fostering a culture of innovation within the industry.");
+            break;
         case 'open the pod bay doors':
-          displayBotResponse("I'm sorry, Dave. I'm afraid I can't do that.");
-          break;
+            displayBotResponse("I'm sorry, Dave. I'm afraid I can't do that.");
+            break;
         case 'play some music':
-          displayBotResponse('Playing music...');
-          startPlayingMusic('http://listen.181fm.com/181-beat_128k.mp3?noPreRoll=true');
-          break;
+            displayBotResponse('Playing music...');
+            startPlayingMusic('http://listen.181fm.com/181-beat_128k.mp3?noPreRoll=true');
+            break;
         case 'set a timer for 10 minutes':
-          displayBotResponse('Timer set for 10 minutes.');
-          setTimer(10 * 60 * 1000); // 10 minutes in milliseconds
-          break;
+            displayBotResponse('Timer set for 10 minutes.');
+            setTimer(10 * 60 * 1000); // 10 minutes in milliseconds
+            break;
         case 'order pizza':
-          displayBotResponse('Placing pizza order...');
-          orderPizza();
-          break;
+            displayBotResponse('Placing pizza order...');
+            orderPizza();
+            break;
         case 'get the latest news':
         case 'what\'s happening in the world':
-          getLatestNews();
-          break;
+            getLatestNews();
+            break;
         case 'get weather':
-          fetchWeather();
-          break;
+            fetchWeather();
+            break;
         case 'show trends':
-          showTrends();
-          break;
+            showTrends();
+            break;
         case 'world news':
-          showWorldNews();
-          break;
-        case 'create reminder':
-          displayBotResponse("Please provide the details for the reminder.");
-          recognition.onresult = (event) => {
-            const reminderDetails = event.results[0][0].transcript;
-            createReminder(reminderDetails);
-          };
-          break;
-        case 'add event to calendar':
-          displayBotResponse("Please provide the event details.");
-          recognition.onresult = (event) => {
-            const eventDetails = event.results[0][0].transcript;
-            addEventToCalendar(eventDetails);
-          };
-          break;
-        case 'get directions':
-          displayBotResponse("Please provide the destination.");
-          recognition.onresult = (event) => {
-            const destination = event.results[0][0].transcript;
-            getDirections(destination);
-          };
-          break;
+            showWorldNews();
+            break;
+
+        // New Commands
+        case 'find a nearby restaurant':
+            displayBotResponse('Finding nearby restaurants...');
+            window.open('https://www.google.com/maps/search/restaurant/', '_blank');
+            break;
+        case 'what\'s the time':
+            displayBotResponse(`The current time is ${new Date().toLocaleTimeString()}.`);
+            window.open('https://time.is/', '_blank');
+            break;
+        case 'set an alarm for 7 am':
+            displayBotResponse('Alarm set for 7 AM.');
+            window.open('https://onlineclock.net/', '_blank');
+            break;
+        case 'send an email':
+            displayBotResponse('Opening email client...');
+            window.open('mailto:');
+            break;
+        case 'find a recipe for spaghetti':
+            displayBotResponse('Finding recipes for spaghetti...');
+            window.open('https://www.allrecipes.com/search/results/?wt=spaghetti&sort=re', '_blank');
+            break;
+        case 'translate hello to spanish':
+            displayBotResponse('Translating "hello" to Spanish...');
+            window.open('https://translate.google.com/?sl=en&tl=es&text=hello&op=translate', '_blank');
+            break;
+        case 'convert 100 usd to eur':
+            displayBotResponse('Converting 100 USD to EUR...');
+            window.open('https://www.xe.com/currencyconverter/convert/?Amount=100&From=USD&To=EUR', '_blank');
+            break;
+        case 'find a nearby gas station':
+            displayBotResponse('Finding nearby gas stations...');
+            window.open('https://www.google.com/maps/search/gas+station/', '_blank');
+            break;
+        case 'play a relaxing sound':
+            displayBotResponse('Playing relaxing sound...');
+            startPlayingMusic('https://www.bensound.com/bensound-music/bensound-slowmotion.mp3');
+            break;
+        case 'find a yoga class':
+            displayBotResponse('Finding yoga classes...');
+            window.open('https://www.meetup.com/find/events/?allMeetups=false&keywords=yoga', '_blank');
+            break;
+        case 'read the latest sports news':
+            displayBotResponse('Fetching the latest sports news...');
+            window.open('https://www.espn.com/', '_blank');
+            break;
+        case 'how to start a business':
+            displayBotResponse('Finding information on how to start a business...');
+            window.open('https://www.sba.gov/business-guide/plan-your-business/starting-business', '_blank');
+            break;
+        case 'find a nearby park':
+            displayBotResponse('Finding nearby parks...');
+            window.open('https://www.google.com/maps/search/park/', '_blank');
+            break;
+        case 'calculate my loan payment':
+            displayBotResponse('Calculating loan payment...');
+            window.open('https://www.bankrate.com/calculators/mortgages/mortgage-calculator.aspx', '_blank');
+            break;
+        case 'how to build a website':
+            displayBotResponse('Finding resources to build a website...');
+            window.open('https://www.w3schools.com/howto/howto_make_a_website.asp', '_blank');
+            break;
+        case 'get travel tips':
+            displayBotResponse('Fetching travel tips...');
+            window.open('https://www.lonelyplanet.com/articles/travel-tips', '_blank');
+            break;
+        case 'how to train a dog':
+            displayBotResponse('Finding dog training guides...');
+            window.open('https://www.akc.org/expert-advice/training/basic-training/', '_blank');
+            break;
+        case 'best books to read':
+            displayBotResponse('Finding best books to read...');
+            window.open('https://www.goodreads.com/list/show/1.Best_Books_Ever', '_blank');
+            break;
+        case 'nearest coffee shop':
+            displayBotResponse('Finding nearest coffee shops...');
+            window.open('https://www.google.com/maps/search/coffee+shop/', '_blank');
+            break;
+        case 'play a quiz':
+            displayBotResponse('Starting a quiz...');
+            window.open('https://www.sporcle.com/', '_blank');
+            break;
+        case 'best movies to watch':
+            displayBotResponse('Finding best movies to watch...');
+            window.open('https://www.imdb.com/chart/top', '_blank');
+            break;
+        case 'how to fix a leaky faucet':
+            displayBotResponse('Finding guides to fix a leaky faucet...');
+            window.open('https://www.familyhandyman.com/project/how-to-fix-a-leaky-faucet/', '_blank');
+            break;
+        case 'find a nearby hospital':
+            displayBotResponse('Finding nearby hospitals...');
+            window.open('https://www.google.com/maps/search/hospital/', '_blank');
+            break;
+        case 'learn a new language':
+            displayBotResponse('Finding resources to learn a new language...');
+            window.open('https://www.duolingo.com/', '_blank');
+            break;
+        case 'nearest pharmacy':
+            displayBotResponse('Finding nearest pharmacies...');
+            window.open('https://www.google.com/maps/search/pharmacy/', '_blank');
+            break;
+        case 'find a movie theater':
+            displayBotResponse('Finding nearby movie theaters...');
+            window.open('https://www.google.com/maps/search/movie+theater/', '_blank');
+            break;
+        case 'how to improve memory':
+            displayBotResponse('Finding tips to improve memory...');
+            window.open('https://www.healthline.com/nutrition/ways-to-improve-memory', '_blank');
+            break;
+        case 'how to sleep better':
+            displayBotResponse('Finding tips for better sleep...');
+            window.open('https://www.sleepfoundation.org/sleep-hygiene/healthy-sleep-tips', '_blank');
+            break;
+        case 'read the latest science news':
+            displayBotResponse('Fetching the latest science news...');
+            window.open('https://www.sciencenews.org/', '_blank');
+            break;
+        case 'order groceries online':
+            displayBotResponse('Opening online grocery store...');
+            window.open('https://www.instacart.com/', '_blank');
+            break;
+        case 'nearest hardware store':
+            displayBotResponse('Finding nearest hardware stores...');
+            window.open('https://www.google.com/maps/search/hardware+store/', '_blank');
+            break;
+        case 'find online courses':
+            displayBotResponse('Finding online courses...');
+            window.open('https://www.coursera.org/', '_blank');
+            break;
+        case 'how to write a resume':
+            displayBotResponse('Finding guides to write a resume...');
+            window.open('https://www.thebalancecareers.com/how-to-write-a-professional-resume-2063237', '_blank');
+            break;
+        case 'find a taxi service':
+            displayBotResponse('Finding taxi services...');
+            window.open('https://www.uber.com/', '_blank');
+            break;
+        case 'how to deal with stress':
+            displayBotResponse('Finding tips to manage stress...');
+            window.open('https://www.apa.org/topics/stress/managing', '_blank');
+            break;
+        case 'how to invest in stocks':
+            displayBotResponse('Finding guides to invest in stocks...');
+            window.open('https://www.investopedia.com/articles/basics/06/invest1000.asp', '_blank');
+            break;
+        case 'find a nearby gym':
+            displayBotResponse('Finding nearby gyms...');
+            window.open('https://www.google.com/maps/search/gym/', '_blank');
+            break;
+        case 'nearest library':
+            displayBotResponse('Finding nearest libraries...');
+            window.open('https://www.google.com/maps/search/library/', '_blank');
+            break;
         default:
-          displayBotResponse("I'm sorry, I didn't understand that command.");
-          break;
-      }
+            displayBotResponse("I'm sorry, I didn't understand that command.");
+            break;
     }
+}
 
-    function speak(message) {
-      const utterance = new SpeechSynthesisUtterance(message);
-      utterance.lang = 'en-US';
-      speechSynthesis.speak(utterance);
-    }
+function fetchWeather() {
+    displayBotResponse("Fetching weather information...");
+    window.open('https://worldweather.wmo.int/en/home.html', '_blank');
+}
 
-    function startPlayingMusic(url) {
-      const audio = new Audio(url);
-      audio.play();
-    }
+function showTrends() {
+    displayBotResponse("Fetching trending searches...");
+    window.open('https://trends.google.com/trends/', '_blank');
+}
 
-    function orderPizza() {
-      window.location.href = 'https://www.dominos.ng/?ref=biz.dominos.com';
-    }
+function showWorldNews() {
+    displayBotResponse("Fetching world news...");
+    window.open('https://www.bbc.com/news/world', '_blank');
+}
 
-    function setTimer(duration) {
-      setTimeout(() => {
-        displayBotResponse('Timer expired!');
-      }, duration);
-    }
+function setTimer(duration) {
+    setTimeout(() => displayBotResponse('Time is up!'), duration);
+}
 
-    function getLatestNews() {
-      const apiKey = 'YOUR_NEWSAPI_API_KEY'; // Replace with your actual NewsAPI API key
-      const url = `https://newsapi.org/v2/top-headlines?language=en&apiKey=${apiKey}`;
-      
-      fetch(url)
-        .then(response => response.json())
-        .then(data => {
-          const newsList = document.getElementById('news-list');
-          newsList.innerHTML = '';
-          data.articles.forEach(article => {
-            const listItem = document.createElement('li');
-            listItem.textContent = article.title;
-            newsList.appendChild(listItem);
-          });
-        })
-        .catch(error => {
-          console.error('Error fetching news:', error);
-        });
-    }
+function startPlayingMusic(url) {
+    let audio = new Audio(url);
+    audio.play();
+}
 
-    function fetchWeather() {
-      displayBotResponse("Fetching weather information...");
-      window.open('https://worldweather.wmo.int/en/home.html', '_blank');
-    }
+function orderPizza() {
+    window.open('https://www.dominos.com/', '_blank');
+}
 
-    function showTrends() {
-      displayBotResponse("Fetching trending searches...");
-      window.open('https://trends.google.com/trends/', '_blank');
-    }
+function getLatestNews() {
+    displayBotResponse('Fetching latest news...');
+    window.open('https://news.google.com/', '_blank');
+}
 
-    function showWorldNews() {
-      displayBotResponse("Fetching world news...");
-      window.open('https://www.bbc.com/news/world', '_blank');
-    }
+function setAlarm(time) {
+    displayBotResponse(`Alarm set for ${time}.`);
+    // Additional implementation needed to actually set an alarm
+}
 
-    function createReminder(details) {
-      displayBotResponse(`Reminder created: ${details}`);
-      // Logic to create reminder
-    }
+function setReminder(task) {
+    displayBotResponse(`Reminder set for ${task}.`);
+    // Additional implementation needed to actually set a reminder
+}
 
-    function addEventToCalendar(details) {
-      displayBotResponse(`Event added to calendar: ${details}`);
-      // Logic to add event to calendar
-    }
+function controlSmartDevice(device, action) {
+    displayBotResponse(`Turning ${action} the ${device}.`);
+    // Additional implementation needed to actually control smart devices
+}
 
-    function getDirections(destination) {
-      displayBotResponse(`Fetching directions to ${destination}...`);
-      window.open(`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(destination)}`, '_blank');
-    }
-
-    document.getElementById('start-listening').addEventListener('click', startListening);
-  </script>
+document.getElementById('start-listening').addEventListener('click', startListening);
+</script>
 </body>
 </html>
