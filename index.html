@@ -155,7 +155,12 @@
       speak(response);
       animateMouth();
     }
+     function speak(text) {
+      const utterance = new SpeechSynthesisUtterance(text);
+      speechSynthesis.speak(utterance);
+    }
 
+    
     function animateMouth() {
       const mouth = document.querySelector('.mouth');
       mouth.classList.add('speaking');
