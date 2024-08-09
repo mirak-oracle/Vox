@@ -126,7 +126,31 @@
 
   <script>
     const recognition = new webkitSpeechRecognition();
-    recognition.lang = 'en-US';
+    recognition.lang =  'en-US', 'es-ES', 'fr-FR', 'de-DE', 'it-IT', 
+        'pt-PT', 'nl-NL', 'sv-SE', 'da-DK', 'fi-FI', 
+        'nb-NO', 'tr-TR', 'ru-RU', 'pl-PL', 'cs-CZ', 
+        'hu-HU', 'ro-RO', 'el-GR', 'ja-JP', 'ko-KR', 
+        'zh-CN', 'zh-TW', 'th-TH', 'id-ID', 'ms-MY', 
+        'vi-VN', 'hi-IN', 'bn-IN', 'ta-IN', 'te-IN',
+        'pcm', // Nigerian Pidgin
+        'ha-NG', // Hausa
+        'ig-NG', // Igbo
+        'yo-NG', // Yoruba
+        'sw-TZ', // Swahili (Tanzania)
+        'sw-KE', // Swahili (Kenya)
+        'am-ET', // Amharic (Ethiopia)
+        'so-SO', // Somali
+        'sn-ZW', // Shona (Zimbabwe)
+        'xh-ZA', // Xhosa (South Africa)
+        'zu-ZA', // Zulu (South Africa)
+        'rw-RW', // Kinyarwanda (Rwanda)
+        'lg-UG', // Luganda (Uganda)
+        'st-LS', // Sesotho (Lesotho)
+        'tn-ZA', // Setswana (South Africa)
+        'ss-ZA', // SiSwati (South Africa)
+        'ks-KE', // Gikuyu (Kenya)
+        'nso-ZA', // Sesotho sa Leboa (South Africa)
+        'dje-NE', // Zarma (Niger)
     recognition.interimResults = false;
     recognition.maxAlternatives = 1;
 
