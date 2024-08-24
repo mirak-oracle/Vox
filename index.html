@@ -446,27 +446,74 @@
         
       
 
-    // 2. Web Search
     case 'search':
+    displayBotResponse('Sure! What would you like to search for?');
+    setTimeout(() => {
+        const query = getUserInput();
+        if (query.toLowerCase().startsWith('search')) {
+            const searchTerm = query.substring(7).trim(); // Extract the search term after the word "search"
+            if (searchTerm) {
+                window.open(`https://www.google.com/search?q=${searchTerm}`, '_blank');
+                displayBotResponse(`Here are the search results for "${searchTerm}"`);
+            } else {
+                displayBotResponse('Please specify what you would like to search for.');
+            }
+        } else {
+            window.open(`https://www.google.com/search?q=${query}`, '_blank');
+            displayBotResponse(`Here are the search results for "${query}"`);
+        }
+    }, 3000);
+    break;
+
+    case 'tell me a story':
+    displayBotResponse('What kind of story are you in the mood for? (e.g., adventure, fantasy, mystery)');
+    setTimeout(() => {
+        const storyType = getUserInput();
+        displayBotResponse(`Great choice! Do you prefer a happy or suspenseful ${storyType} story?`);
+        setTimeout(() => {
+            const mood = getUserInput().toLowerCase();
+            if (storyType === 'adventure' && mood === 'happy') {
+                displayBotResponse('Once upon a time, a brave explorer found a treasure... (continue with story)');
+                // Continue story logic here
+            } else if (storyType === 'fantasy' && mood === 'suspenseful') {
+                displayBotResponse('In a land of magic, a dark secret was hidden... (continue with story)');
+                // Continue story logic here
+            } else {
+                window.open(`https://www.google.com/search?q=${storyType}+story`, '_blank');
+                displayBotResponse(`Here’s a great ${storyType} story for you...`);
+            }
+        }, 3000);
+    }, 3000);
+    break;
+
+        case 'search':
+    displayBotResponse('Where would you like to search? (e.g., Google, Wikipedia, YouTube)');
+    setTimeout(() => {
+        const source = getUserInput().toLowerCase();
         displayBotResponse('What would you like to search for?');
         setTimeout(() => {
             const query = getUserInput();
-            window.open(`https://www.google.com/search?q=${query}`, '_blank');
-            displayBotResponse(`Here are the search results for "${query}"`);
+            let searchUrl;
+            switch (source) {
+                case 'google':
+                    searchUrl = `https://www.google.com/search?q=${query}`;
+                    break;
+                case 'wikipedia':
+                    searchUrl = `https://en.wikipedia.org/wiki/Special:Search?search=${query}`;
+                    break;
+                case 'youtube':
+                    searchUrl = `https://www.youtube.com/results?search_query=${query}`;
+                    break;
+                default:
+                    searchUrl = `https://www.google.com/search?q=${query}`;
+            }
+            window.open(searchUrl, '_blank');
+            displayBotResponse(`Here are the search results for "${query}" on ${source.charAt(0).toUpperCase() + source.slice(1)}`);
         }, 3000);
-        break;
+    }, 3000);
+    break;
 
-    // 3. Tell Me a Story
-    case 'tell me a story':
-        displayBotResponse('Sure! What kind of story are you in the mood for? (e.g., adventure, fantasy, mystery)');
-        setTimeout(() => {
-            const storyType = getUserInput();
-            window.open(`https://www.google.com/search?q=${storyType}+story`, '_blank');
-            displayBotResponse(`Here’s a great ${storyType} story for you...`);
-            // Code to start telling the story (using speech synthesis or similar)
-        }, 3000);
-        break;
-
+        
     // 4. Shopping Assistance
     case 'shop online':
         displayBotResponse('I can help you shop! Allow me to detect your location...');
