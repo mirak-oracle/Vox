@@ -443,10 +443,335 @@
             displayBotResponse('Finding nearest libraries...');
             window.open('https://www.google.com/maps/search/library/', '_blank');
             break;
-        default:
+        
+      
+
+    // 2. Web Search
+    case 'search':
+        displayBotResponse('What would you like to search for?');
+        setTimeout(() => {
+            const query = getUserInput();
+            window.open(`https://www.google.com/search?q=${query}`, '_blank');
+            displayBotResponse(`Here are the search results for "${query}"`);
+        }, 3000);
+        break;
+
+    // 3. Tell Me a Story
+    case 'tell me a story':
+        displayBotResponse('Sure! What kind of story are you in the mood for? (e.g., adventure, fantasy, mystery)');
+        setTimeout(() => {
+            const storyType = getUserInput();
+            window.open(`https://www.google.com/search?q=${storyType}+story`, '_blank');
+            displayBotResponse(`Here’s a great ${storyType} story for you...`);
+            // Code to start telling the story (using speech synthesis or similar)
+        }, 3000);
+        break;
+
+    // 4. Shopping Assistance
+    case 'shop online':
+        displayBotResponse('I can help you shop! Allow me to detect your location...');
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition((position) => {
+                const lat = position.coords.latitude;
+                const lon = position.coords.longitude;
+                window.open(`https://www.google.com/search?q=shopping+sites+near+me`, '_blank');
+                displayBotResponse('Here are some shopping options near your location.');
+            });
+        } else {
+            displayBotResponse('I couldn’t detect your location. Please try searching manually.');
+        }
+        break;
+
+    // 5. Workflow Implementation
+    case 'workflow':
+        displayBotResponse('What workflow would you like to set up?');
+        setTimeout(() => {
+            const workflow = getUserInput();
+            // Code to implement the workflow
+            localStorage.setItem('workflow', workflow); // Store the custom command in localStorage or a backend service
+            displayBotResponse(`Workflow "${workflow}" has been set up successfully!`);
+        }, 3000);
+        break;
+
+    // 6. Task Saving
+    case 'save task':
+        displayBotResponse('What task would you like to save?');
+        setTimeout(() => {
+            const task = getUserInput();
+            localStorage.setItem('task', task); // Code to save task in localStorage or a backend service
+            displayBotResponse(`Task "${task}" saved successfully.`);
+        }, 3000);
+        break;
+
+    // 7. Routine Setup (e.g., Alarms, Reminders)
+    case 'set alarm':
+        displayBotResponse('What time would you like to set the alarm for?');
+        setTimeout(() => {
+            const alarmTime = getUserInput();
+            // Code to set up an alarm (requires background service or scheduling)
+            displayBotResponse(`Alarm set for ${alarmTime}.`);
+        }, 3000);
+        break;
+
+    case 'set reminder':
+        displayBotResponse('What would you like to be reminded about?');
+        setTimeout(() => {
+            const reminder = getUserInput();
+            displayBotResponse(`When would you like to be reminded about "${reminder}"?`);
+            setTimeout(() => {
+                const time = getUserInput();
+                localStorage.setItem('reminder', `${reminder} at ${time}`); // Code to save the reminder
+                displayBotResponse(`Reminder set for ${time}: ${reminder}.`);
+            }, 3000);
+        }, 3000);
+        break;
+
+    // 8. Personalized Greetings Based on Time of Day
+    case 'good morning':
+        displayBotResponse('Good morning! 🌅 I hope you have a fantastic day ahead. How can I assist you today?');
+        break;
+
+    case 'good afternoon':
+        displayBotResponse('Good afternoon! ☀️ I’m here to help with anything you need.');
+        break;
+
+    case 'good night':
+        displayBotResponse('Good night! 🌙 Sleep tight, and if you need anything tomorrow, just ask!');
+        break;
+
+    // 9. Mood Detection & Response
+    case 'i am feeling':
+        const mood = userQuery.replace('i am feeling ', '');
+        if (mood === 'happy') {
+            displayBotResponse('I’m glad to hear that! 🎉 Let’s keep the good vibes going!');
+        } else if (mood === 'sad') {
+            displayBotResponse('I’m sorry to hear that. 😢 I’m here if you need to talk or want to hear a joke.');
+        } else if (mood === 'tired') {
+            displayBotResponse('You deserve a break. How about a relaxing playlist?');
+            window.open('https://www.youtube.com/results?search_query=relaxing+music', '_blank');
+        }
+        break;
+
+    // 10. Daily Quiz or Fun Facts
+    case 'daily quiz':
+        displayBotResponse('Time for a quick quiz! Here’s your question: What’s the capital of France?');
+        setTimeout(() => {
+            const answer = getUserInput();
+            if (answer.toLowerCase() === 'paris') {
+                displayBotResponse('Correct! 🎉 You’re a geography whiz!');
+            } else {
+                displayBotResponse('Oops! The correct answer is Paris. Better luck next time!');
+            }
+        }, 3000);
+        break;
+
+    case 'fun fact':
+        displayBotResponse('Did you know? Honey never spoils. Archaeologists have found pots of honey in ancient Egyptian tombs that are over 3,000 years old and still perfectly edible.');
+        break;
+
+    // 11. Personalized Music Playlist Generation
+    case 'play music':
+        displayBotResponse('What kind of music are you in the mood for? Jazz, Pop, Rock, or something else?');
+        setTimeout(() => {
+            const genre = getUserInput();
+            displayBotResponse(`Creating a ${genre} playlist for you...`);
+            window.open(`https://www.spotify.com/search/${genre}`, '_blank');
+        }, 3000);
+        break;
+
+    // 12. Task Automation Suggestions
+    case 'suggest tasks':
+        displayBotResponse('Based on your recent activities, here are some tasks you might want to add to your list:');
+        displayBotResponse('- Follow up on emails 📧');
+        displayBotResponse('- Plan next week’s meals 🍲');
+        displayBotResponse('- Schedule a workout 🏋️');
+        break;
+
+    // 13. Weather-Based Suggestions
+    case 'check weather':
+        displayBotResponse('Checking the weather for your location...');
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition((position) => {
+                const lat = position.coords.latitude;
+                const lon = position.coords.longitude;
+                window.open(`https://www.weather.com/weather/today/l/${lat},${lon}`, '_blank');
+                displayBotResponse('Based on the weather, I suggest taking an umbrella if you’re heading out today! ☂️');
+            });
+        } else {
+            displayBotResponse('Unable to retrieve your location. Please check the weather manually.');
+        }
+        break;
+
+    // 14. Interactive Story Creation
+    case 'create a story':
+        displayBotResponse('Let’s create a story together! Start by giving me a character name.');
+        setTimeout(() => {
+            const characterName = getUserInput();
+            displayBotResponse(`Great! Now, where does ${characterName} live?`);
+            setTimeout(() => {
+                const setting = getUserInput();
+                displayBotResponse(`Awesome! And what’s ${characterName}’s goal?`);
+                setTimeout(() => {
+                    const goal = getUserInput();
+                    displayBotResponse(`Here’s your story: Once upon a time, ${characterName} lived in ${setting}. One day, they decided to ${goal}, and that’s where their adventure began!`);
+                }, 3000);
+            }, 3000);
+        }, 3000);
+        break;
+
+    // 15. Multi-Language Support
+    case 'translate':
+        displayBotResponse('What would you like to translate?');
+        setTimeout(() => {
+            const phrase = getUserInput();
+            displayBotResponse('Which language should I translate it into?');
+            setTimeout(() => {
+                const language = getUserInput();
+                displayBotResponse(`Translating "${phrase}" into ${language}...`);
+                window.open(`https://translate.google.com/?sl=auto&tl=${language}&text=${phrase}`, '_blank');
+            }, 3000);
+        }, 3000);
+        break;
+
+    // 16. Motivational Quotes
+    case 'motivate me':
+        displayBotResponse('Here’s your daily dose of motivation: "The only way to do great work is to love what you do." - Steve Jobs 💪');
+        break;
+
+    // 17. Event Reminders & Alerts
+    case 'set reminder':
+        displayBotResponse('What would you like to be reminded about?');
+        setTimeout(() => {
+            const reminder = getUserInput();
+            displayBotResponse(`When would you like to be reminded about "${reminder}"?`);
+            setTimeout(() => {
+                const time = getUserInput();
+                localStorage.setItem('reminder', `${reminder} at ${time}`); // Code to save the reminder
+                displayBotResponse(`Reminder set for ${time}: ${reminder}.`);
+            }, 3000);
+        }, 3000);
+        break;
+
+    // 18. Language Practice
+    case 'practice language':
+        displayBotResponse('Which language would you like to practice today?');
+        setTimeout(() => {
+            const language = getUserInput();
+            displayBotResponse(`Great! Let’s practice some ${language} phrases...`);
+            // Code to fetch and display practice phrases
+        }, 3000);
+        break;
+
+    // 19. Create Personal Workflows
+    case 'create workflow':
+        displayBotResponse('What workflow would you like to create?');
+        setTimeout(() => {
+            const workflow = getUserInput();
+            localStorage.setItem('workflow', workflow); // Store the custom command in localStorage or a backend service
+            displayBotResponse(`Workflow "${workflow}" has been created successfully!`);
+        }, 3000);
+        break;
+
+    // 20. Discover New Recipes
+    case 'find recipe':
+        displayBotResponse('What ingredient do you want to use?');
+        setTimeout(() => {
+            const ingredient = getUserInput();
+            window.open(`https://www.google.com/search?q=${ingredient}+recipe`, '_blank');
+            displayBotResponse(`Here’s a great recipe using ${ingredient}! 🍽️`);
+        }, 3000);
+        break;
+
+    // 21. Exercise Routine Suggestions
+    case 'suggest workout':
+        displayBotResponse('What type of exercise are you in the mood for? (e.g., cardio, strength, yoga)');
+        setTimeout(() => {
+            const workoutType = getUserInput();
+            displayBotResponse(`Here’s a ${workoutType} workout you can try:`);
+            window.open(`https://www.youtube.com/results?search_query=${workoutType}+workout`, '_blank');
+        }, 3000);
+        break;
+
+    // 22. Sleep Assistance & Relaxation Techniques
+    case 'relax':
+        displayBotResponse('Would you like some relaxing music or a guided meditation?');
+        setTimeout(() => {
+            const choice = getUserInput();
+            if (choice.toLowerCase() === 'music') {
+                window.open('https://www.youtube.com/results?search_query=relaxing+music', '_blank');
+                displayBotResponse('Here’s some relaxing music for you... 🎶');
+            } else if (choice.toLowerCase() === 'meditation') {
+                window.open('https://www.youtube.com/results?search_query=guided+meditation', '_blank');
+                displayBotResponse('Here’s a guided meditation to help you relax... 🧘‍♂️');
+            }
+        }, 3000);
+        break;
+
+    // 23. Inspirational Stories
+    case 'inspire me':
+        displayBotResponse('Here’s an inspiring story for you: Once upon a time...');
+        // Code to fetch and display an inspirational story (using speech synthesis or similar)
+        break;
+
+    // 24. Habit Tracking
+    case 'track habit':
+        displayBotResponse('What habit would you like to track?');
+        setTimeout(() => {
+            const habit = getUserInput();
+            localStorage.setItem('habit', habit); // Code to track habit progress
+            displayBotResponse(`You’re now tracking your progress on: ${habit}`);
+        }, 3000);
+        break;
+
+    // 25. Daily Reflection or Journaling Prompts
+    case 'daily reflection':
+        displayBotResponse('Here’s today’s reflection prompt: "What was the best part of your day?"');
+        setTimeout(() => {
+            const reflection = getUserInput();
+            localStorage.setItem('reflection', reflection); // Code to save the reflection response
+            displayBotResponse('Thanks for sharing! It’s important to reflect on the positives.');
+        }, 3000);
+        break;
+
+    case 'journal':
+        displayBotResponse('What would you like to journal about today?');
+        setTimeout(() => {
+            const entry = getUserInput();
+            localStorage.setItem('journal', entry); // Code to save the journal entry
+            displayBotResponse('Your journal entry has been saved.');
+        }, 3000);
+        break;
+
+    // 26. Language Translation with Contextual Understanding
+    case 'translate with context':
+        displayBotResponse('What would you like to translate, and in what context (e.g., formal, casual)?');
+        setTimeout(() => {
+            const translationRequest = getUserInput();
+            displayBotResponse('Which language should I translate it into?');
+            setTimeout(() => {
+                const language = getUserInput();
+                // Code to process the contextual translation
+                displayBotResponse(`Here’s the translation of "${translationRequest}" into ${language} (context considered).`);
+            }, 3000);
+        }, 3000);
+        break;
+
+    // 27. Mental Health Check-In
+    case 'mental health check-in':
+        displayBotResponse('How are you feeling today? (e.g., happy, sad, stressed)');
+        setTimeout(() => {
+            const feeling = getUserInput();
+            localStorage.setItem('mentalHealth', feeling); // Code to save the user’s mood
+            displayBotResponse(`Thanks for sharing. I’m here to help if you need anything.`);
+        }, 3000);
+        break;
+
+    default:
             displayBotResponse("I'm sorry, I didn't understand that command.");
             break;
     }
+
+        
 }
 
 function fetchWeather() {
