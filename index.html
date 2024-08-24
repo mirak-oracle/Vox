@@ -587,61 +587,8 @@ case 'set alarm':
     }, 3000);
     break;
 
-// Initialize the SpeechRecognition API
-const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
-recognition.lang = 'en-US'; // Set language for recognition
-recognition.interimResults = false; // Only final results are needed
 
-// Function to start voice recognition
-function startVoiceRecognition() {
-    recognition.start();
-}
 
-// Handle results from voice recognition
-recognition.onresult = function(event) {
-    const transcript = event.results[0][0].transcript.trim().toLowerCase();
-    
-    // Example command: "Set reminder to buy groceries in 10 minutes."
-    const reminderMatch = transcript.match(/set reminder to (.*?) in (\d+) minutes/);
-    
-    if (reminderMatch) {
-        const reminderContent = reminderMatch[1].trim(); // Extract reminder content
-        const minutes = parseInt(reminderMatch[2], 10);
-
-        if (isNaN(minutes) || minutes <= 0) {
-            displayBotResponse('Please specify a valid number of minutes.');
-        } else {
-            setTimeout(() => {
-                showNotification('Reminder', `Reminder: ${reminderContent}`);
-                displayBotResponse(`Reminder set for ${minutes} minutes from now.`);
-            }, minutes * 60000); // Convert minutes to milliseconds
-        }
-    } else {
-        displayBotResponse('I didn’t catch that. Please use a command like "Set reminder to [task] in [number] minutes."');
-    }
-};
-
-// Handle errors in voice recognition
-recognition.onerror = function(event) {
-    displayBotResponse('Sorry, I didn’t catch that. Could you please try again?');
-};
-
-// Function to display responses (dummy function)
-function displayBotResponse(message) {
-    console.log(message); // Replace with actual implementation to show message to the user
-}
-
-// Function to show browser notifications
-function showNotification(title, body) {
-    if (Notification.permission === 'granted') {
-        new Notification(title, { body });
-    } else {
-        displayBotResponse('Please enable notifications for this feature to work.');
-    }
-}
-
-// Start voice recognition when needed
-// Call startVoiceRecognition() to initiate voice input
 
 
     case 'set reminder':
@@ -807,67 +754,10 @@ function displayBotResponse(message) {
             }, 3000);
         }, 3000);
         break;
-// Initialize the SpeechRecognition API
-const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
-recognition.lang = 'en-US'; // Set the language for recognition
-recognition.interimResults = false; // Only final results are needed
 
-// Function to start voice recognition
-function startVoiceRecognition() {
-    recognition.start();
-}
 
-// Handle results from voice recognition
-recognition.onresult = function(event) {
-    const transcript = event.results[0][0].transcript.trim().toLowerCase();
-    
-    // Example phrases for different languages
-    const phrases = {
-        'spanish': [
-            'Hola, ¿cómo estás? (Hello, how are you?)',
-            '¿Cuántos años tienes? (How old are you?)',
-            'Me llamo [Tu Nombre]. (My name is [Your Name].)'
-        ],
-        'french': [
-            'Bonjour, comment ça va? (Hello, how are you?)',
-            'Quel âge as-tu? (How old are you?)',
-            'Je m\'appelle [Votre Nom]. (My name is [Your Name].)'
-        ],
-        'german': [
-            'Hallo, wie geht es dir? (Hello, how are you?)',
-            'Wie alt bist du? (How old are you?)',
-            'Ich heiße [Ihr Name]. (My name is [Your Name].)'
-        ]
-        // Add more languages and phrases as needed
-    };
 
-    // Process the spoken language command
-    const language = transcript.toLowerCase();
-    
-    if (phrases[language]) {
-        displayBotResponse(`Great! Let’s practice some ${language} phrases:`);
-        phrases[language].forEach((phrase, index) => {
-            setTimeout(() => {
-                displayBotResponse(`${index + 1}. ${phrase}`);
-            }, index * 3000); // Staggered display for better user experience
-        });
-    } else {
-        displayBotResponse(`Sorry, I don't have practice phrases for ${language} yet. Please try another language.`);
-    }
-};
 
-// Handle errors in voice recognition
-recognition.onerror = function(event) {
-    displayBotResponse('Sorry, I didn’t catch that. Could you please repeat your language choice?');
-};
-
-// Function to display responses (dummy function)
-function displayBotResponse(message) {
-    console.log(message); // Replace with actual implementation to show message to the user
-}
-
-// Start voice recognition when needed
-// Call startVoiceRecognition() to initiate voice input
 
 
     // 19. Create Personal Workflows
