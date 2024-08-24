@@ -805,33 +805,7 @@ function displayBotResponse(message) {
         }, 3000);
         break;
 
-// 23. Inspirational Stories
-case 'inspire me':
-    displayBotResponse('Let me find an inspiring story for you...');
-    
-    // Fetch a random inspirational story from an external API or resource
-    fetch('https://www.brainyquote.com/topics/inspirational-quotes') // Replace with your API URL
-        .then(response => response.json())
-        .then(data => {
-            const story = data.story; // Adjust according to API response structure
-            
-            // Display the story text
-            displayBotResponse(`Here’s an inspiring story for you: ${story}`);
-            
-            // Optionally use speech synthesis to narrate the story
-            const utterance = new SpeechSynthesisUtterance(story);
-            window.speechSynthesis.speak(utterance);
-        })
-        .catch(error => {
-            displayBotResponse('Sorry, I couldn’t fetch an inspiring story at the moment. Please try again later.');
-        });
-    break;
 
-// Function to handle displaying responses
-function displayBotResponse(message) {
-    // Example implementation (replace with your actual UI update code)
-    console.log(message); // Replace with actual implementation to show message to the user
-}
 
     // 24. Habit Tracking
     case 'track habit':
