@@ -550,15 +550,99 @@
         }, 3000);
         break;
 
-    // 7. Routine Setup (e.g., Alarms, Reminders)
-    case 'set alarm':
-        displayBotResponse('What time would you like to set the alarm for?');
-        setTimeout(() => {
-            const alarmTime = getUserInput();
-            // Code to set up an alarm (requires background service or scheduling)
+    // Request permission for notifications
+if (Notification.permission !== 'granted') {
+    Notification.requestPermission();
+}
+
+function showNotification(title, body) {
+    if (Notification.permission === 'granted') {
+        new Notification(title, { body });
+    } else {
+        displayBotResponse('Please enable notifications for this feature to work.');
+    }
+}
+
+// Function to handle setting alarms
+case 'set alarm':
+    displayBotResponse('What time would you like to set the alarm for? (Please use the format HH:MM)');
+    setTimeout(() => {
+        const alarmTime = getUserInput();
+        const now = new Date();
+        const [hours, minutes] = alarmTime.split(':').map(Number);
+        const alarmDate = new Date(now.getFullYear(), now.getMonth(), now.getDate(), hours, minutes);
+
+        // Calculate the delay in milliseconds
+        const delay = alarmDate.getTime() - now.getTime();
+
+        if (delay > 0) {
+            setTimeout(() => {
+                showNotification('Alarm Alert', `It’s ${alarmTime}. Time to check your alarm!`);
+                displayBotResponse(`Alarm for ${alarmTime} has gone off.`);
+            }, delay);
             displayBotResponse(`Alarm set for ${alarmTime}.`);
-        }, 3000);
-        break;
+        } else {
+            displayBotResponse('The time you entered is in the past. Please enter a future time.');
+        }
+    }, 3000);
+    break;
+
+// Initialize the SpeechRecognition API
+const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+recognition.lang = 'en-US'; // Set language for recognition
+recognition.interimResults = false; // Only final results are needed
+
+// Function to start voice recognition
+function startVoiceRecognition() {
+    recognition.start();
+}
+
+// Handle results from voice recognition
+recognition.onresult = function(event) {
+    const transcript = event.results[0][0].transcript.trim().toLowerCase();
+    
+    // Example command: "Set reminder to buy groceries in 10 minutes."
+    const reminderMatch = transcript.match(/set reminder to (.*?) in (\d+) minutes/);
+    
+    if (reminderMatch) {
+        const reminderContent = reminderMatch[1].trim(); // Extract reminder content
+        const minutes = parseInt(reminderMatch[2], 10);
+
+        if (isNaN(minutes) || minutes <= 0) {
+            displayBotResponse('Please specify a valid number of minutes.');
+        } else {
+            setTimeout(() => {
+                showNotification('Reminder', `Reminder: ${reminderContent}`);
+                displayBotResponse(`Reminder set for ${minutes} minutes from now.`);
+            }, minutes * 60000); // Convert minutes to milliseconds
+        }
+    } else {
+        displayBotResponse('I didn’t catch that. Please use a command like "Set reminder to [task] in [number] minutes."');
+    }
+};
+
+// Handle errors in voice recognition
+recognition.onerror = function(event) {
+    displayBotResponse('Sorry, I didn’t catch that. Could you please try again?');
+};
+
+// Function to display responses (dummy function)
+function displayBotResponse(message) {
+    console.log(message); // Replace with actual implementation to show message to the user
+}
+
+// Function to show browser notifications
+function showNotification(title, body) {
+    if (Notification.permission === 'granted') {
+        new Notification(title, { body });
+    } else {
+        displayBotResponse('Please enable notifications for this feature to work.');
+    }
+}
+
+// Start voice recognition when needed
+// Call startVoiceRecognition() to initiate voice input
+
 
     case 'set reminder':
         displayBotResponse('What would you like to be reminded about?');
@@ -616,23 +700,48 @@
         displayBotResponse('Did you know? Honey never spoils. Archaeologists have found pots of honey in ancient Egyptian tombs that are over 3,000 years old and still perfectly edible.');
         break;
 
-    // 11. Personalized Music Playlist Generation
-    case 'play music':
-        displayBotResponse('What kind of music are you in the mood for? Jazz, Pop, Rock, or something else?');
-        setTimeout(() => {
-            const genre = getUserInput();
-            displayBotResponse(`Creating a ${genre} playlist for you...`);
-            window.open(`https://www.spotify.com/search/${genre}`, '_blank');
-        }, 3000);
-        break;
+    
+// 12. Task Automation Suggestions
+case 'suggest tasks':
+    // Function to fetch user activity or preferences
+    function getUserActivitySuggestions() {
+        // Example: Replace with real data or AI-based recommendations
+        const activities = [
+            'Follow up on emails 📧',
+            'Plan next week’s meals 🍲',
+            'Schedule a workout 🏋️',
+            'Organize your workspace 🗂️',
+            'Set goals for the week 🎯',
+            'Review project deadlines 📅',
+            'Meditate or practice mindfulness 🧘',
+        ];
+        return activities;
+    }
 
-    // 12. Task Automation Suggestions
-    case 'suggest tasks':
-        displayBotResponse('Based on your recent activities, here are some tasks you might want to add to your list:');
-        displayBotResponse('- Follow up on emails 📧');
-        displayBotResponse('- Plan next week’s meals 🍲');
-        displayBotResponse('- Schedule a workout 🏋️');
-        break;
+    // Fetch and display suggestions
+    displayBotResponse('Based on your recent activities, here are some tasks you might want to add to your list:');
+    
+    const suggestions = getUserActivitySuggestions();
+    suggestions.forEach((task, index) => {
+        // Display each suggestion
+        setTimeout(() => {
+            displayBotResponse(`${index + 1}. ${task}`);
+        }, index * 2000); // Staggered display for better user experience
+    });
+
+    // Additional interactivity
+    setTimeout(() => {
+        displayBotResponse('Would you like to add any of these tasks to your to-do list?');
+    }, suggestions.length * 2000 + 1000); // Delay before asking for user action
+    break;
+
+// Function to handle displaying responses
+function displayBotResponse(message) {
+    // Example implementation (replace with your actual UI update code)
+    console.log(message); // Replace with actual implementation to show message to the user
+}
+
+
 
     // 13. Weather-Based Suggestions
     case 'check weather':
@@ -698,16 +807,68 @@
             }, 3000);
         }, 3000);
         break;
+// Initialize the SpeechRecognition API
+const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+recognition.lang = 'en-US'; // Set the language for recognition
+recognition.interimResults = false; // Only final results are needed
 
-    // 18. Language Practice
-    case 'practice language':
-        displayBotResponse('Which language would you like to practice today?');
-        setTimeout(() => {
-            const language = getUserInput();
-            displayBotResponse(`Great! Let’s practice some ${language} phrases...`);
-            // Code to fetch and display practice phrases
-        }, 3000);
-        break;
+// Function to start voice recognition
+function startVoiceRecognition() {
+    recognition.start();
+}
+
+// Handle results from voice recognition
+recognition.onresult = function(event) {
+    const transcript = event.results[0][0].transcript.trim().toLowerCase();
+    
+    // Example phrases for different languages
+    const phrases = {
+        'spanish': [
+            'Hola, ¿cómo estás? (Hello, how are you?)',
+            '¿Cuántos años tienes? (How old are you?)',
+            'Me llamo [Tu Nombre]. (My name is [Your Name].)'
+        ],
+        'french': [
+            'Bonjour, comment ça va? (Hello, how are you?)',
+            'Quel âge as-tu? (How old are you?)',
+            'Je m\'appelle [Votre Nom]. (My name is [Your Name].)'
+        ],
+        'german': [
+            'Hallo, wie geht es dir? (Hello, how are you?)',
+            'Wie alt bist du? (How old are you?)',
+            'Ich heiße [Ihr Name]. (My name is [Your Name].)'
+        ]
+        // Add more languages and phrases as needed
+    };
+
+    // Process the spoken language command
+    const language = transcript.toLowerCase();
+    
+    if (phrases[language]) {
+        displayBotResponse(`Great! Let’s practice some ${language} phrases:`);
+        phrases[language].forEach((phrase, index) => {
+            setTimeout(() => {
+                displayBotResponse(`${index + 1}. ${phrase}`);
+            }, index * 3000); // Staggered display for better user experience
+        });
+    } else {
+        displayBotResponse(`Sorry, I don't have practice phrases for ${language} yet. Please try another language.`);
+    }
+};
+
+// Handle errors in voice recognition
+recognition.onerror = function(event) {
+    displayBotResponse('Sorry, I didn’t catch that. Could you please repeat your language choice?');
+};
+
+// Function to display responses (dummy function)
+function displayBotResponse(message) {
+    console.log(message); // Replace with actual implementation to show message to the user
+}
+
+// Start voice recognition when needed
+// Call startVoiceRecognition() to initiate voice input
+
 
     // 19. Create Personal Workflows
     case 'create workflow':
@@ -754,11 +915,33 @@
         }, 3000);
         break;
 
-    // 23. Inspirational Stories
-    case 'inspire me':
-        displayBotResponse('Here’s an inspiring story for you: Once upon a time...');
-        // Code to fetch and display an inspirational story (using speech synthesis or similar)
-        break;
+// 23. Inspirational Stories
+case 'inspire me':
+    displayBotResponse('Let me find an inspiring story for you...');
+    
+    // Fetch a random inspirational story from an external API or resource
+    fetch('https://www.brainyquote.com/topics/inspirational-quotes') // Replace with your API URL
+        .then(response => response.json())
+        .then(data => {
+            const story = data.story; // Adjust according to API response structure
+            
+            // Display the story text
+            displayBotResponse(`Here’s an inspiring story for you: ${story}`);
+            
+            // Optionally use speech synthesis to narrate the story
+            const utterance = new SpeechSynthesisUtterance(story);
+            window.speechSynthesis.speak(utterance);
+        })
+        .catch(error => {
+            displayBotResponse('Sorry, I couldn’t fetch an inspiring story at the moment. Please try again later.');
+        });
+    break;
+
+// Function to handle displaying responses
+function displayBotResponse(message) {
+    // Example implementation (replace with your actual UI update code)
+    console.log(message); // Replace with actual implementation to show message to the user
+}
 
     // 24. Habit Tracking
     case 'track habit':
@@ -789,19 +972,7 @@
         }, 3000);
         break;
 
-    // 26. Language Translation with Contextual Understanding
-    case 'translate with context':
-        displayBotResponse('What would you like to translate, and in what context (e.g., formal, casual)?');
-        setTimeout(() => {
-            const translationRequest = getUserInput();
-            displayBotResponse('Which language should I translate it into?');
-            setTimeout(() => {
-                const language = getUserInput();
-                // Code to process the contextual translation
-                displayBotResponse(`Here’s the translation of "${translationRequest}" into ${language} (context considered).`);
-            }, 3000);
-        }, 3000);
-        break;
+    
 
     // 27. Mental Health Check-In
     case 'mental health check-in':
