@@ -550,20 +550,7 @@
         }, 3000);
         break;
 
-    // Request permission for notifications
-if (Notification.permission !== 'granted') {
-    Notification.requestPermission();
-}
 
-function showNotification(title, body) {
-    if (Notification.permission === 'granted') {
-        new Notification(title, { body });
-    } else {
-        displayBotResponse('Please enable notifications for this feature to work.');
-    }
-}
-
-// Function to handle setting alarms
 case 'set alarm':
     displayBotResponse('What time would you like to set the alarm for? (Please use the format HH:MM)');
     setTimeout(() => {
@@ -648,45 +635,7 @@ case 'set alarm':
         break;
 
     
-// 12. Task Automation Suggestions
-case 'suggest tasks':
-    // Function to fetch user activity or preferences
-    function getUserActivitySuggestions() {
-        // Example: Replace with real data or AI-based recommendations
-        const activities = [
-            'Follow up on emails 📧',
-            'Plan next week’s meals 🍲',
-            'Schedule a workout 🏋️',
-            'Organize your workspace 🗂️',
-            'Set goals for the week 🎯',
-            'Review project deadlines 📅',
-            'Meditate or practice mindfulness 🧘',
-        ];
-        return activities;
-    }
 
-    // Fetch and display suggestions
-    displayBotResponse('Based on your recent activities, here are some tasks you might want to add to your list:');
-    
-    const suggestions = getUserActivitySuggestions();
-    suggestions.forEach((task, index) => {
-        // Display each suggestion
-        setTimeout(() => {
-            displayBotResponse(`${index + 1}. ${task}`);
-        }, index * 2000); // Staggered display for better user experience
-    });
-
-    // Additional interactivity
-    setTimeout(() => {
-        displayBotResponse('Would you like to add any of these tasks to your to-do list?');
-    }, suggestions.length * 2000 + 1000); // Delay before asking for user action
-    break;
-
-// Function to handle displaying responses
-function displayBotResponse(message) {
-    // Example implementation (replace with your actual UI update code)
-    console.log(message); // Replace with actual implementation to show message to the user
-}
 
 
 
