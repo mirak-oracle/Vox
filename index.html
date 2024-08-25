@@ -14,7 +14,47 @@
     gtag('config', 'G-ZY9S9E5VGC');
   </script>
   
-  <style>
+  
+<style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f0f0;
+      margin: 0;
+      padding: 20px;
+    }
+    h1 {
+      text-align: center;
+      color: #333;
+    }
+    button {
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      border-radius: 5px;
+      transition: background-color 0.3s ease;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    #user-messages, #bot-responses {
+      margin-top: 20px;
+    }
+    .message {
+      padding: 10px;
+      margin-bottom: 10px;
+      border-radius: 5px;
+    }
+    .user-message {
+      background-color: #007bff;
+      color: #fff;
+    }
+    .bot-message {
+      background-color: #f1f1f1;
+      color: #333;
+    }
     #face {
       position: relative;
       width: 200px;
@@ -67,37 +107,23 @@
       transition: transform 0.2s ease;
     }
     .speaking {
-      animation: speak 0.5s infinite;
-    }
-    @keyframes speak {
-      0% { transform: scaleY(1); }
-      50% { transform: scaleY(0.5); }
-      100% { transform: scaleY(1); }
+      transform: scaleY(1.2);
     }
   </style>
 </head>
-<body class="bg-gray-100 text-gray-800 p-4">
-
-  <h1 class="text-3xl font-bold text-center mb-6">Vox - Voice-Activated Assistant</h1>
-
-  <div class="flex justify-center mb-4">
-    <button id="start-listening" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-      Start Listening
-    </button>
-  </div>
-
+<body>
+  <h1>Vox - Voice-Activated Assistant</h1>
+  <button id="start-listening">Start Listening</button>
   <div id="face">
     <div class="eye left-eye"></div>
     <div class="eye right-eye"></div>
     <div class="eyebrow left-eyebrow"></div>
     <div class="eyebrow right-eyebrow"></div>
-    <div class="mouth" id="mouth"></div>
+    <div class="mouth"></div>
   </div>
-
-  <div id="user-messages" class="mt-4"></div>
-  <div id="bot-responses" class="mt-4"></div>
+  <div id="user-messages"></div>
+  <div id="bot-responses"></div>
   <ul id="news-list"></ul>
-
 
 
 
