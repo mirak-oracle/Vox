@@ -13,117 +13,88 @@
     gtag('js', new Date());
     gtag('config', 'G-ZY9S9E5VGC');
   </script>
-  
-  
-<style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f0f0f0;
-      margin: 0;
-      padding: 20px;
-    }
-    h1 {
-      text-align: center;
-      color: #333;
-    }
-    button {
-      background-color: #007bff;
-      color: #fff;
-      border: none;
-      padding: 10px 20px;
-      font-size: 16px;
-      cursor: pointer;
-      border-radius: 5px;
-      transition: background-color 0.3s ease;
-    }
-    button:hover {
-      background-color: #0056b3;
-    }
-    #user-messages, #bot-responses {
-      margin-top: 20px;
-    }
-    .message {
-      padding: 10px;
-      margin-bottom: 10px;
-      border-radius: 5px;
-    }
-    .user-message {
-      background-color: #007bff;
-      color: #fff;
-    }
-    .bot-message {
-      background-color: #f1f1f1;
-      color: #333;
-    }
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-900 text-gray-200 font-sans">
+
+  <h1 class="text-4xl font-bold text-center mt-10 mb-6 text-indigo-500">Vox - Voice-Activated Assistant</h1>
+
+  <div class="flex justify-center mb-6">
+    <button id="start-listening" class="flex items-center bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-5 rounded-lg transition duration-300 ease-in-out transform hover:scale-105 shadow-lg">
+      <svg class="w-6 h-6 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+      </svg>
+      Start Listening
+    </button>
+  </div>
+
+  <!-- Animated Face -->
+  <div id="face" class="relative mx-auto mb-10 flex justify-center items-center">
+    <div class="w-40 h-40 bg-indigo-800 rounded-full flex items-center justify-center shadow-lg relative">
+      <div class="eye left-eye bg-white border-4 border-indigo-500 rounded-full absolute w-6 h-6"></div>
+      <div class="eye right-eye bg-white border-4 border-indigo-500 rounded-full absolute w-6 h-6"></div>
+      <div class="eyebrow left-eyebrow bg-indigo-500 absolute w-8 h-1 rounded-full"></div>
+      <div class="eyebrow right-eyebrow bg-indigo-500 absolute w-8 h-1 rounded-full"></div>
+      <div class="mouth bg-red-500 rounded-full absolute w-16 h-4"></div>
+    </div>
+  </div>
+
+  <!-- User Messages and Bot Responses -->
+  <div id="user-messages" class="mx-auto max-w-2xl bg-gray-800 p-4 rounded-lg shadow-md mb-4">
+    <!-- Dynamic content will be added here -->
+  </div>
+  <div id="bot-responses" class="mx-auto max-w-2xl bg-gray-800 p-4 rounded-lg shadow-md">
+    <!-- Dynamic content will be added here -->
+  </div>
+
+  <!-- News List -->
+  <ul id="news-list" class="mx-auto max-w-2xl mt-6 p-4 bg-gray-800 rounded-lg shadow-md list-disc list-inside"></ul>
+
+  <style>
+    /* Enhancements for face elements */
     #face {
-      position: relative;
       width: 200px;
       height: 200px;
-      margin: 0 auto;
-      margin-bottom: 20px;
+      margin-bottom: 30px;
     }
     .eye {
       position: absolute;
       width: 30px;
       height: 30px;
-      background-color: white;
+      background-color: #fff;
       border-radius: 50%;
-      border: 2px solid #333;
-    }
-    .left-eye {
-      top: 40px;
-      left: 50px;
-    }
-    .right-eye {
-      top: 40px;
-      right: 50px;
-    }
-    .eyebrow {
-      position: absolute;
-      width: 50px;
-      height: 10px;
-      background-color: brown;
-      border-radius: 20px;
-    }
-    .left-eyebrow {
-      top: 30px;
-      left: 35px;
-      transform: rotate(-10deg);
-    }
-    .right-eyebrow {
-      top: 30px;
-      right: 35px;
-      transform: rotate(10deg);
-    }
-    .mouth {
-      position: absolute;
-      width: 100px;
-      height: 20px;
-      background-color: red;
-      bottom: 50px;
-      left: 50px;
-      border-radius: 50px/20px;
-      transform-origin: 50% 50%;
+      top: 30%;
       transition: transform 0.2s ease;
     }
-    .speaking {
-      transform: scaleY(1.2);
+    .left-eye { left: 30%; }
+    .right-eye { right: 30%; }
+    .eyebrow {
+      position: absolute;
+      width: 40px;
+      height: 6px;
+      background-color: #6b7280;
+      border-radius: 20px;
+      top: 20%;
+      transition: transform 0.3s ease;
     }
+    .left-eyebrow { left: 20%; transform: rotate(-15deg); }
+    .right-eyebrow { right: 20%; transform: rotate(15deg); }
+    .mouth {
+      position: absolute;
+      bottom: 20%;
+      left: 25%;
+      width: 80px;
+      height: 15px;
+      background-color: #ef4444;
+      border-radius: 20px/10px;
+      transition: transform 0.3s ease;
+    }
+    .speaking { transform: scaleY(1.4); }
   </style>
-</head>
-<body>
-  <h1>Vox - Voice-Activated Assistant</h1>
-  <button id="start-listening">Start Listening</button>
-  <div id="face">
-    <div class="eye left-eye"></div>
-    <div class="eye right-eye"></div>
-    <div class="eyebrow left-eyebrow"></div>
-    <div class="eyebrow right-eyebrow"></div>
-    <div class="mouth"></div>
-  </div>
-  <div id="user-messages"></div>
-  <div id="bot-responses"></div>
-  <ul id="news-list"></ul>
+</body>
+</html>
 
 
 
