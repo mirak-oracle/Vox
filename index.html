@@ -3,831 +3,207 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Vox - Voice-Activated Assistant</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-
-  <!-- Google Analytics -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZY9S9E5VGC"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-ZY9S9E5VGC');
-  </script>
-  
-  <style>
-    @keyframes pulse {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.05); }
-    }
-    .pulse {
-      animation: pulse 2s infinite;
-    }
-    .eye {
-      transition: all 0.3s ease;
-    }
-    .eyebrow {
-      transition: all 0.3s ease;
-    }
-    .mouth {
-      transition: all 0.3s ease;
-    }
-    .speaking .mouth {
-      animation: speak 0.3s infinite alternate;
-    }
-    @keyframes speak {
-      0% { transform: scaleY(1); }
-      100% { transform: scaleY(1.5); }
-    }
-  </style>
+  <title>Vox - Google Gemini Style</title>
+  <link rel="stylesheet" href="style.css">
 </head>
-<body class="bg-gradient-to-r from-blue-100 to-purple-100 min-h-screen font-sans">
-  <div class="container mx-auto px-4 py-8">
-    <h1 class="text-4xl font-bold text-center text-indigo-700 mb-8">Vox - Voice-Activated Assistant</h1>
-    
-    <div class="flex justify-center mb-8">
-      <button id="start-listening" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-6 rounded-full shadow-lg transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 inline-block mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" />
-        </svg>
-        Start Listening
-      </button>
-    </div>
+  <style>
+    body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #121212;
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
 
-    <div id="face" class="w-48 h-48 mx-auto mb-8 bg-gradient-to-b from-yellow-300 to-yellow-400 rounded-full shadow-xl relative overflow-hidden pulse">
-      <div class="eye left-eye absolute w-8 h-8 bg-white rounded-full border-2 border-gray-800 top-12 left-10"></div>
-      <div class="eye right-eye absolute w-8 h-8 bg-white rounded-full border-2 border-gray-800 top-12 right-10"></div>
-      <div class="eyebrow left-eyebrow absolute w-12 h-2 bg-yellow-700 rounded-full top-8 left-8 transform -rotate-15"></div>
-      <div class="eyebrow right-eyebrow absolute w-12 h-2 bg-yellow-700 rounded-full top-8 right-8 transform rotate-15"></div>
-      <div class="mouth absolute w-24 h-6 bg-red-500 bottom-12 left-12 rounded-full"></div>
-    </div>
+.container {
+  text-align: center;
+}
 
-    <div id="conversation" class="bg-white rounded-lg shadow-xl p-6 max-w-2xl mx-auto">
-      <div id="user-messages" class="space-y-4 mb-4"></div>
-      <div id="bot-responses" class="space-y-4"></div>
-    </div>
+#glow-indicator {
+  width: 200px;
+  height: 200px;
+  margin: 20px auto;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(0, 123, 255, 0.7), rgba(0, 123, 255, 0.3));
+  box-shadow: 0 0 30px 10px rgba(0, 123, 255, 0.5);
+  animation: glow-pulse 2s infinite ease-in-out;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
 
-    
+@keyframes glow-pulse {
+  0% {
+    box-shadow: 0 0 30px 10px rgba(0, 123, 255, 0.5);
+  }
+  50% {
+    box-shadow: 0 0 50px 20px rgba(0, 123, 255, 0.7);
+  }
+  100% {
+    box-shadow: 0 0 30px 10px rgba(0, 123, 255, 0.5);
+  }
+}
+
+.controls button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  margin: 10px;
+  cursor: pointer;
+  border-radius: 5px;
+  font-size: 1rem;
+}
+
+.controls button:hover {
+  background-color: #0056b3;
+}
+
+#output {
+  margin-top: 20px;
+  font-size: 1.2rem;
+}
+
+  </style>
+<body>
+  <div class="container">
+    <h1>Vox - Smart Voice Assistant</h1>
+    <div id="glow-indicator" class="glow"></div>
+    <div id="output">Click "Start" to begin.</div>
+    <div class="controls">
+      <button id="start">Start</button>
+      <button id="hold">Hold</button>
+      <button id="end">End</button>
+    </div>
   </div>
 
-  
-</body>
-</html>
-
   <script>
-    const recognition = new webkitSpeechRecognition();
-    recognition.lang =  'en-US', 'es-ES', 'fr-FR', 'de-DE', 'it-IT', 
-        'pt-PT', 'nl-NL', 'sv-SE', 'da-DK', 'fi-FI', 
-        'nb-NO', 'tr-TR', 'ru-RU', 'pl-PL', 'cs-CZ', 
-        'hu-HU', 'ro-RO', 'el-GR', 'ja-JP', 'ko-KR', 
-        'zh-CN', 'zh-TW', 'th-TH', 'id-ID', 'ms-MY', 
-        'vi-VN', 'hi-IN', 'bn-IN', 'ta-IN', 'te-IN',
-        'pcm', // Nigerian Pidgin
-        'ha-NG', // Hausa
-        'ig-NG', // Igbo
-        'yo-NG', // Yoruba
-        'sw-TZ', // Swahili (Tanzania)
-        'sw-KE', // Swahili (Kenya)
-        'am-ET', // Amharic (Ethiopia)
-        'so-SO', // Somali
-        'sn-ZW', // Shona (Zimbabwe)
-        'xh-ZA', // Xhosa (South Africa)
-        'zu-ZA', // Zulu (South Africa)
-        'rw-RW', // Kinyarwanda (Rwanda)
-        'lg-UG', // Luganda (Uganda)
-        'st-LS', // Sesotho (Lesotho)
-        'tn-ZA', // Setswana (South Africa)
-        'ss-ZA', // SiSwati (South Africa)
-        'ks-KE', // Gikuyu (Kenya)
-        'nso-ZA', // Sesotho sa Leboa (South Africa)
-        'dje-NE', // Zarma (Niger)
-    recognition.interimResults = false;
-    recognition.maxAlternatives = 1;
+    const startBtn = document.getElementById('start');
+const holdBtn = document.getElementById('hold');
+const endBtn = document.getElementById('end');
+const output = document.getElementById('output');
+const glowIndicator = document.getElementById('glow-indicator');
 
-    recognition.onresult = (event) => {
-      const transcript = event.results[0][0].transcript;
-      displayUserMessage(transcript);
-      processCommand(transcript);
-    };
+let recognition;
+let isListening = false;
+let audioContext;
+let analyser;
+let microphone;
 
-    recognition.onerror = (event) => {
-      console.error('Speech recognition error:', event.error);
-    };
+// Initialize Web Speech API and Audio Context
+const initRecognition = () => {
+  window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 
-    function startListening() {
-      recognition.start();
+  // Initialize Speech Recognition
+  recognition = new SpeechRecognition();
+  recognition.lang = 'en-US';
+  recognition.interimResults = false;
+  recognition.continuous = true;
+
+  // Speech Start Event
+  recognition.onstart = () => {
+    isListening = true;
+    glowIndicator.style.opacity = "1";
+    output.textContent = "Listening...";
+    startAudioVisualization();
+  };
+
+  // Process Speech Result
+  recognition.onresult = (event) => {
+    const transcript = event.results[event.results.length - 1][0].transcript.trim();
+    output.textContent = `You said: "${transcript}"`;
+
+    if (transcript.toLowerCase() === 'hold') {
+      recognition.stop();
+      output.textContent = "Paused. Say 'Start' to continue.";
+      stopAudioVisualization();
+      return;
     }
 
-    function displayUserMessage(message) {
-      const userMessages = document.getElementById('user-messages');
-      userMessages.innerHTML += `<p class="message user-message">You: ${message}</p>`;
+    if (transcript.toLowerCase() === 'end') {
+      recognition.stop();
+      output.textContent = "Session Ended.";
+      stopAudioVisualization();
+      return;
     }
 
-    function displayBotResponse(response) {
-      const botResponses = document.getElementById('bot-responses');
-      botResponses.innerHTML += `<p class="message bot-message">Vox: ${response}</p>`;
-      speak(response);
-      animateMouth();
-    }
-     function speak(text) {
-      const utterance = new SpeechSynthesisUtterance(text);
-      speechSynthesis.speak(utterance);
-    }
-    
-
-
-const mouthElement = document.getElementById('mouth');
-
-    // Function to display bot response and animate mouth based on speech duration
-function speakAndAnimate(text) {
-    const utterance = new SpeechSynthesisUtterance(text);
-    
-    // Start mouth animation when speaking starts
-    utterance.onstart = () => {
-        mouthElement.classList.add('speaking');
-    };
-
-    // Stop mouth animation when speaking ends
-    utterance.onend = () => {
-        mouthElement.classList.remove('speaking');
-    };
-
-    // Speak the text
-    speechSynthesis.speak(utterance);
-
-    // Also display the text visually
-    displayBotResponse(text);
-}
-    function animateMouth() {
-      const mouth = document.querySelector('.mouth');
-      mouth.classList.add('speaking');
-      setTimeout(() => {
-        mouth.classList.remove('speaking');
-      }, 200);
-    }
-
-      function processCommand(command) {
-    switch (command.toLowerCase()) {
-        case 'hello':
-            displayBotResponse('Hello! I am Vox. How can I assist you today?');
-            break;
-        case 'what is the weather today':
-            fetchWeather();
-            break;
-        case 'tell me a joke':
-            displayBotResponse("Why don’t scientists trust atoms? Because they make up everything!");
-            break;
-        case 'how are you':
-            displayBotResponse("I'm doing well, thank you for asking!");
-            break;
-        case 'tell me about yourself':
-            displayBotResponse("Hello! My name is Vox. A cutting-edge hybrid humanoid and intelligent assistant, activated by advanced smart technology created and founded by Amedu Miracle, the chairman and CEO of Mirak Oracle, a subsidiary of the Mirakle Group. we were developed to provide efficient and intelligent assistance in various tasks and inquiries. Whether you need help with day-to-day tasks, information retrieval, or even just a friendly chat, I'm here to help! With a strong foundation in artificial intelligence and natural language processing, I strive to provide accurate and helpful responses to your queries. Feel free to ask me anything!");
-            break;
-        case 'what can you do':
-            displayBotResponse("I can assist you with tasks like providing information, setting reminders, playing music, and much more. Feel free to ask.");
-            break;
-        case 'how to solve mathematics fast':
-            displayBotResponse("To solve mathematics problems quickly, practice mental math techniques, learn shortcuts for common calculations, and break down complex problems into simpler steps.");
-            break;
-        case 'who is elon musk':
-            displayBotResponse("Elon Musk is a billionaire entrepreneur and CEO of Tesla, SpaceX, Neuralink, and The Boring Company. He is known for his ambitious projects in electric vehicles, space exploration, and neural technology.");
-            break;
-        case 'what is ai':
-            displayBotResponse("AI, or artificial intelligence, refers to the simulation of human intelligence in machines that are programmed to think, learn, and problem-solve like humans. AI encompasses various technologies such as machine learning, natural language processing, and computer vision.");
-            break;
-        case 'some shocking facts we don\'t know':
-            displayBotResponse("Did you know that there are more trees on Earth than stars in the Milky Way galaxy? Or that honey never spoils? These are just a couple of fascinating facts that might surprise you!");
-            break;
-        case 'what is humanoid':
-            displayBotResponse("A humanoid is a robot or artificial being that resembles or imitates human appearance, behavior, or cognition. Humanoids are designed to interact with humans and perform tasks in a human-like manner.");
-            break;
-        case 'how to read and write fast':
-            displayBotResponse("To read and write quickly, practice speed reading techniques such as skimming and scanning, improve your vocabulary, and learn to summarize information effectively. For writing, outline your ideas before writing, practice typing efficiently, and proofread for errors later.");
-            break;
-        case 'how to spell':
-            displayBotResponse("To improve your spelling, practice regularly by reading and writing, use mnemonic devices to remember tricky words, and consult dictionaries or spelling apps for guidance. Additionally, pay attention to word patterns and common spelling rules.");
-            break;
-        case 'how to cook fast':
-            displayBotResponse("To cook quickly, choose recipes with minimal preparation and cooking time, organize your ingredients and equipment beforehand, and use time-saving cooking methods such as stir-frying, pressure cooking, or using a microwave.");
-            break;
-        case 'how to become successful':
-            displayBotResponse("Success can be achieved through hard work, determination, and a clear vision of your goals. Set specific and achievable goals, develop a growth mindset, seek continuous learning and improvement, and persevere through challenges.");
-            break;
-        case 'how to pray':
-            displayBotResponse("Prayer is a personal and spiritual practice that varies across different beliefs and traditions. To pray, find a quiet and comfortable space, express gratitude, seek guidance, and connect with your faith or spirituality.");
-            break;
-        case 'how to believe in jesus':
-            displayBotResponse("Belief in Jesus is a personal journey that involves faith, reflection, and study of religious teachings. To believe in Jesus, explore his life and teachings through the Bible, pray for guidance and understanding, and seek fellowship with other believers.");
-            break;
-        case 'about earth':
-            displayBotResponse("Earth is the third planet from the sun and the only known planet to support life. It has a diverse ecosystem with a variety of environments, including oceans, forests, deserts, and polar regions. Earth's atmosphere protects life by providing oxygen, regulating temperature, and shielding from harmful radiation.");
-            break;
-        case 'about countries':
-            displayBotResponse("Countries are sovereign states with defined territories, governments, and populations. Each country has its own unique culture, history, and governance system. There are currently 195 countries recognized by the United Nations, each with its own flag, national anthem, and symbols.");
-            break;
-        case 'who is miracle':
-            displayBotResponse("Miracle is described as the founder of CosmicCoin, a cryptocurrency, and the CEO and Founder of several other ventures under the Mirakle Group umbrella. Miracle is also involved in leading a team at Mirak Oracle, a tech organization within the Mirakle Group, focused on revolutionizing the digital landscape and shaping the future of technology. Miracle's background includes roles as an Engineer, businessperson, entrepreneur, investor, and developer, bringing a wealth of expertise to the table.");
-            break;
-        case 'mirak oracle':
-            displayBotResponse("Mirak Oracle, a dynamic subsidiary of the esteemed Mirakle Group, stands at the forefront of technological innovation. With an impressive portfolio, including Wapchat, FlippyHero, SeekWise, and MirakleAi and more , we are dedicated to delivering cutting-edge solutions that redefine the digital landscape. Our team of skilled professionals tirelessly manages and controls the operations of our products, ensuring seamless functionality and user satisfaction. Combining expertise with a passion for excellence, we create transformative experiences that resonate with our global clientele. With a commitment to scalability, security, and user-centric design, Mirak Oracle continues to revolutionize the tech industry. Join us on this journey as we pave the way for a future driven by innovation and technological advancement.");
-            break;
-        case 'miracle group':
-            displayBotResponse("Mirakle Group is described as an esteemed organization dedicated to creating a space where individuals can share insights, explore diverse perspectives, and deepen their understanding of the world. It encompasses ventures such as CosmicCoin, E-martt Inc., MirakleAi, Wapchat, FlippyHero, SeekWise, and WebWise. The group focuses on leveraging cutting-edge technology and innovative features to enhance the sharing and dissemination of knowledge, with a commitment to excellence and fostering a culture of innovation within the industry.");
-            break;
-        case 'open the pod bay doors':
-            displayBotResponse("I'm sorry, Dave. I'm afraid I can't do that.");
-            break;
-        case 'play some music':
-            displayBotResponse('Playing music...');
-            startPlayingMusic('http://listen.181fm.com/181-beat_128k.mp3?noPreRoll=true');
-            break;
-        case 'set a timer for 10 minutes':
-            displayBotResponse('Timer set for 10 minutes.');
-            setTimer(10 * 60 * 1000); // 10 minutes in milliseconds
-            break;
-        case 'order pizza':
-            displayBotResponse('Placing pizza order...');
-            orderPizza();
-            break;
-        case 'get the latest news':
-        case 'what\'s happening in the world':
-            getLatestNews();
-            break;
-        case 'get weather':
-            fetchWeather();
-            break;
-        case 'show trends':
-            showTrends();
-            break;
-        case 'world news':
-            showWorldNews();
-            break;
-
-        // New Commands
-        case 'find a nearby restaurant':
-            displayBotResponse('Finding nearby restaurants...');
-            window.open('https://www.google.com/maps/search/restaurant/', '_blank');
-            break;
-        case 'what\'s the time':
-            displayBotResponse(`The current time is ${new Date().toLocaleTimeString()}.`);
-            window.open('https://time.is/', '_blank');
-            break;
-        case 'set an alarm for 7 am':
-            displayBotResponse('Alarm set for 7 AM.');
-            window.open('https://onlineclock.net/', '_blank');
-            break;
-        case 'send an email':
-            displayBotResponse('Opening email client...');
-            window.open('mailto:');
-            break;
-        case 'find a recipe for spaghetti':
-            displayBotResponse('Finding recipes for spaghetti...');
-            window.open('https://www.allrecipes.com/search/results/?wt=spaghetti&sort=re', '_blank');
-            break;
-        case 'translate hello to spanish':
-            displayBotResponse('Translating "hello" to Spanish...');
-            window.open('https://translate.google.com/?sl=en&tl=es&text=hello&op=translate', '_blank');
-            break;
-        case 'convert 100 usd to eur':
-            displayBotResponse('Converting 100 USD to EUR...');
-            window.open('https://www.xe.com/currencyconverter/convert/?Amount=100&From=USD&To=EUR', '_blank');
-            break;
-        case 'find a nearby gas station':
-            displayBotResponse('Finding nearby gas stations...');
-            window.open('https://www.google.com/maps/search/gas+station/', '_blank');
-            break;
-        case 'play a relaxing sound':
-            displayBotResponse('Playing relaxing sound...');
-            startPlayingMusic('https://www.bensound.com/bensound-music/bensound-slowmotion.mp3');
-            break;
-        case 'find a yoga class':
-            displayBotResponse('Finding yoga classes...');
-            window.open('https://www.meetup.com/find/events/?allMeetups=false&keywords=yoga', '_blank');
-            break;
-        case 'read the latest sports news':
-            displayBotResponse('Fetching the latest sports news...');
-            window.open('https://www.espn.com/', '_blank');
-            break;
-        case 'how to start a business':
-            displayBotResponse('Finding information on how to start a business...');
-            window.open('https://www.sba.gov/business-guide/plan-your-business/starting-business', '_blank');
-            break;
-        case 'find a nearby park':
-            displayBotResponse('Finding nearby parks...');
-            window.open('https://www.google.com/maps/search/park/', '_blank');
-            break;
-        case 'calculate my loan payment':
-            displayBotResponse('Calculating loan payment...');
-            window.open('https://www.bankrate.com/calculators/mortgages/mortgage-calculator.aspx', '_blank');
-            break;
-        case 'how to build a website':
-            displayBotResponse('Finding resources to build a website...');
-            window.open('https://www.w3schools.com/howto/howto_make_a_website.asp', '_blank');
-            break;
-        case 'get travel tips':
-            displayBotResponse('Fetching travel tips...');
-            window.open('https://www.lonelyplanet.com/articles/travel-tips', '_blank');
-            break;
-        case 'how to train a dog':
-            displayBotResponse('Finding dog training guides...');
-            window.open('https://www.akc.org/expert-advice/training/basic-training/', '_blank');
-            break;
-        case 'best books to read':
-            displayBotResponse('Finding best books to read...');
-            window.open('https://www.goodreads.com/list/show/1.Best_Books_Ever', '_blank');
-            break;
-        case 'nearest coffee shop':
-            displayBotResponse('Finding nearest coffee shops...');
-            window.open('https://www.google.com/maps/search/coffee+shop/', '_blank');
-            break;
-        case 'play a quiz':
-            displayBotResponse('Starting a quiz...');
-            window.open('https://www.sporcle.com/', '_blank');
-            break;
-        case 'best movies to watch':
-            displayBotResponse('Finding best movies to watch...');
-            window.open('https://www.imdb.com/chart/top', '_blank');
-            break;
-        case 'how to fix a leaky faucet':
-            displayBotResponse('Finding guides to fix a leaky faucet...');
-            window.open('https://www.familyhandyman.com/project/how-to-fix-a-leaky-faucet/', '_blank');
-            break;
-        case 'find a nearby hospital':
-            displayBotResponse('Finding nearby hospitals...');
-            window.open('https://www.google.com/maps/search/hospital/', '_blank');
-            break;
-        case 'learn a new language':
-            displayBotResponse('Finding resources to learn a new language...');
-            window.open('https://www.duolingo.com/', '_blank');
-            break;
-        case 'nearest pharmacy':
-            displayBotResponse('Finding nearest pharmacies...');
-            window.open('https://www.google.com/maps/search/pharmacy/', '_blank');
-            break;
-        case 'find a movie theater':
-            displayBotResponse('Finding nearby movie theaters...');
-            window.open('https://www.google.com/maps/search/movie+theater/', '_blank');
-            break;
-        case 'how to improve memory':
-            displayBotResponse('Finding tips to improve memory...');
-            window.open('https://www.healthline.com/nutrition/ways-to-improve-memory', '_blank');
-            break;
-        case 'how to sleep better':
-            displayBotResponse('Finding tips for better sleep...');
-            window.open('https://www.sleepfoundation.org/sleep-hygiene/healthy-sleep-tips', '_blank');
-            break;
-        case 'read the latest science news':
-            displayBotResponse('Fetching the latest science news...');
-            window.open('https://www.sciencenews.org/', '_blank');
-            break;
-        case 'order groceries online':
-            displayBotResponse('Opening online grocery store...');
-            window.open('https://www.instacart.com/', '_blank');
-            break;
-        case 'nearest hardware store':
-            displayBotResponse('Finding nearest hardware stores...');
-            window.open('https://www.google.com/maps/search/hardware+store/', '_blank');
-            break;
-        case 'find online courses':
-            displayBotResponse('Finding online courses...');
-            window.open('https://www.coursera.org/', '_blank');
-            break;
-        case 'how to write a resume':
-            displayBotResponse('Finding guides to write a resume...');
-            window.open('https://www.thebalancecareers.com/how-to-write-a-professional-resume-2063237', '_blank');
-            break;
-        case 'find a taxi service':
-            displayBotResponse('Finding taxi services...');
-            window.open('https://www.uber.com/', '_blank');
-            break;
-        case 'how to deal with stress':
-            displayBotResponse('Finding tips to manage stress...');
-            window.open('https://www.apa.org/topics/stress/managing', '_blank');
-            break;
-        case 'how to invest in stocks':
-            displayBotResponse('Finding guides to invest in stocks...');
-            window.open('https://www.investopedia.com/articles/basics/06/invest1000.asp', '_blank');
-            break;
-        case 'find a nearby gym':
-            displayBotResponse('Finding nearby gyms...');
-            window.open('https://www.google.com/maps/search/gym/', '_blank');
-            break;
-        case 'nearest library':
-            displayBotResponse('Finding nearest libraries...');
-            window.open('https://www.google.com/maps/search/library/', '_blank');
-            break;
-        
-      
-
-    case 'search':
-    displayBotResponse('Sure! What would you like to search for?');
-    setTimeout(() => {
-        const query = getUserInput();
-        if (query.toLowerCase().startsWith('search')) {
-            const searchTerm = query.substring(7).trim(); // Extract the search term after the word "search"
-            if (searchTerm) {
-                window.open(`https://www.google.com/search?q=${searchTerm}`, '_blank');
-                displayBotResponse(`Here are the search results for "${searchTerm}"`);
-            } else {
-                displayBotResponse('Please specify what you would like to search for.');
-            }
-        } else {
-            window.open(`https://www.google.com/search?q=${query}`, '_blank');
-            displayBotResponse(`Here are the search results for "${query}"`);
-        }
-    }, 3000);
-    break;
-
-    case 'tell me a story':
-    displayBotResponse('What kind of story are you in the mood for? (e.g., adventure, fantasy, mystery)');
-    setTimeout(() => {
-        const storyType = getUserInput();
-        displayBotResponse(`Great choice! Do you prefer a happy or suspenseful ${storyType} story?`);
-        setTimeout(() => {
-            const mood = getUserInput().toLowerCase();
-            if (storyType === 'adventure' && mood === 'happy') {
-                displayBotResponse('Once upon a time, a brave explorer found a treasure... (continue with story)');
-                // Continue story logic here
-            } else if (storyType === 'fantasy' && mood === 'suspenseful') {
-                displayBotResponse('In a land of magic, a dark secret was hidden... (continue with story)');
-                // Continue story logic here
-            } else {
-                window.open(`https://www.google.com/search?q=${storyType}+story`, '_blank');
-                displayBotResponse(`Here’s a great ${storyType} story for you...`);
-            }
-        }, 3000);
-    }, 3000);
-    break;
-
-        case 'search':
-    displayBotResponse('Where would you like to search? (e.g., Google, Wikipedia, YouTube)');
-    setTimeout(() => {
-        const source = getUserInput().toLowerCase();
-        displayBotResponse('What would you like to search for?');
-        setTimeout(() => {
-            const query = getUserInput();
-            let searchUrl;
-            switch (source) {
-                case 'google':
-                    searchUrl = `https://www.google.com/search?q=${query}`;
-                    break;
-                case 'wikipedia':
-                    searchUrl = `https://en.wikipedia.org/wiki/Special:Search?search=${query}`;
-                    break;
-                case 'youtube':
-                    searchUrl = `https://www.youtube.com/results?search_query=${query}`;
-                    break;
-                default:
-                    searchUrl = `https://www.google.com/search?q=${query}`;
-            }
-            window.open(searchUrl, '_blank');
-            displayBotResponse(`Here are the search results for "${query}" on ${source.charAt(0).toUpperCase() + source.slice(1)}`);
-        }, 3000);
-    }, 3000);
-    break;
-
-        
-    // 4. Shopping Assistance
-    case 'shop online':
-        displayBotResponse('I can help you shop! Allow me to detect your location...');
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition((position) => {
-                const lat = position.coords.latitude;
-                const lon = position.coords.longitude;
-                window.open(`https://www.google.com/search?q=shopping+sites+near+me`, '_blank');
-                displayBotResponse('Here are some shopping options near your location.');
-            });
-        } else {
-            displayBotResponse('I couldn’t detect your location. Please try searching manually.');
-        }
-        break;
-
-    // 5. Workflow Implementation
-    case 'workflow':
-        displayBotResponse('What workflow would you like to set up?');
-        setTimeout(() => {
-            const workflow = getUserInput();
-            // Code to implement the workflow
-            localStorage.setItem('workflow', workflow); // Store the custom command in localStorage or a backend service
-            displayBotResponse(`Workflow "${workflow}" has been set up successfully!`);
-        }, 3000);
-        break;
-
-    // 6. Task Saving
-    case 'save task':
-        displayBotResponse('What task would you like to save?');
-        setTimeout(() => {
-            const task = getUserInput();
-            localStorage.setItem('task', task); // Code to save task in localStorage or a backend service
-            displayBotResponse(`Task "${task}" saved successfully.`);
-        }, 3000);
-        break;
-
-
-case 'set alarm':
-    displayBotResponse('What time would you like to set the alarm for? (Please use the format HH:MM)');
-    setTimeout(() => {
-        const alarmTime = getUserInput();
-        const now = new Date();
-        const [hours, minutes] = alarmTime.split(':').map(Number);
-        const alarmDate = new Date(now.getFullYear(), now.getMonth(), now.getDate(), hours, minutes);
-
-        // Calculate the delay in milliseconds
-        const delay = alarmDate.getTime() - now.getTime();
-
-        if (delay > 0) {
-            setTimeout(() => {
-                showNotification('Alarm Alert', `It’s ${alarmTime}. Time to check your alarm!`);
-                displayBotResponse(`Alarm for ${alarmTime} has gone off.`);
-            }, delay);
-            displayBotResponse(`Alarm set for ${alarmTime}.`);
-        } else {
-            displayBotResponse('The time you entered is in the past. Please enter a future time.');
-        }
-    }, 3000);
-    break;
-
-
-
-
-
-    case 'set reminder':
-        displayBotResponse('What would you like to be reminded about?');
-        setTimeout(() => {
-            const reminder = getUserInput();
-            displayBotResponse(`When would you like to be reminded about "${reminder}"?`);
-            setTimeout(() => {
-                const time = getUserInput();
-                localStorage.setItem('reminder', `${reminder} at ${time}`); // Code to save the reminder
-                displayBotResponse(`Reminder set for ${time}: ${reminder}.`);
-            }, 3000);
-        }, 3000);
-        break;
-
-    // 8. Personalized Greetings Based on Time of Day
-    case 'good morning':
-        displayBotResponse('Good morning! 🌅 I hope you have a fantastic day ahead. How can I assist you today?');
-        break;
-
-    case 'good afternoon':
-        displayBotResponse('Good afternoon! ☀️ I’m here to help with anything you need.');
-        break;
-
-    case 'good night':
-        displayBotResponse('Good night! 🌙 Sleep tight, and if you need anything tomorrow, just ask!');
-        break;
-
-    // 9. Mood Detection & Response
-    case 'i am feeling':
-        const mood = userQuery.replace('i am feeling ', '');
-        if (mood === 'happy') {
-            displayBotResponse('I’m glad to hear that! 🎉 Let’s keep the good vibes going!');
-        } else if (mood === 'sad') {
-            displayBotResponse('I’m sorry to hear that. 😢 I’m here if you need to talk or want to hear a joke.');
-        } else if (mood === 'tired') {
-            displayBotResponse('You deserve a break. How about a relaxing playlist?');
-            window.open('https://www.youtube.com/results?search_query=relaxing+music', '_blank');
-        }
-        break;
-
-    // 10. Daily Quiz or Fun Facts
-    case 'daily quiz':
-        displayBotResponse('Time for a quick quiz! Here’s your question: What’s the capital of France?');
-        setTimeout(() => {
-            const answer = getUserInput();
-            if (answer.toLowerCase() === 'paris') {
-                displayBotResponse('Correct! 🎉 You’re a geography whiz!');
-            } else {
-                displayBotResponse('Oops! The correct answer is Paris. Better luck next time!');
-            }
-        }, 3000);
-        break;
-
-    case 'fun fact':
-        displayBotResponse('Did you know? Honey never spoils. Archaeologists have found pots of honey in ancient Egyptian tombs that are over 3,000 years old and still perfectly edible.');
-        break;
-
-    
-
-
-
-
-    // 13. Weather-Based Suggestions
-    case 'check weather':
-        displayBotResponse('Checking the weather for your location...');
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition((position) => {
-                const lat = position.coords.latitude;
-                const lon = position.coords.longitude;
-                window.open(`https://www.weather.com/weather/today/l/${lat},${lon}`, '_blank');
-                displayBotResponse('Based on the weather, I suggest taking an umbrella if you’re heading out today! ☂️');
-            });
-        } else {
-            displayBotResponse('Unable to retrieve your location. Please check the weather manually.');
-        }
-        break;
-
-    // 14. Interactive Story Creation
-    case 'create a story':
-        displayBotResponse('Let’s create a story together! Start by giving me a character name.');
-        setTimeout(() => {
-            const characterName = getUserInput();
-            displayBotResponse(`Great! Now, where does ${characterName} live?`);
-            setTimeout(() => {
-                const setting = getUserInput();
-                displayBotResponse(`Awesome! And what’s ${characterName}’s goal?`);
-                setTimeout(() => {
-                    const goal = getUserInput();
-                    displayBotResponse(`Here’s your story: Once upon a time, ${characterName} lived in ${setting}. One day, they decided to ${goal}, and that’s where their adventure began!`);
-                }, 3000);
-            }, 3000);
-        }, 3000);
-        break;
-
-    // 15. Multi-Language Support
-    case 'translate':
-        displayBotResponse('What would you like to translate?');
-        setTimeout(() => {
-            const phrase = getUserInput();
-            displayBotResponse('Which language should I translate it into?');
-            setTimeout(() => {
-                const language = getUserInput();
-                displayBotResponse(`Translating "${phrase}" into ${language}...`);
-                window.open(`https://translate.google.com/?sl=auto&tl=${language}&text=${phrase}`, '_blank');
-            }, 3000);
-        }, 3000);
-        break;
-
-    // 16. Motivational Quotes
-    case 'motivate me':
-        displayBotResponse('Here’s your daily dose of motivation: "The only way to do great work is to love what you do." - Steve Jobs 💪');
-        break;
-
-    // 17. Event Reminders & Alerts
-    case 'set reminder':
-        displayBotResponse('What would you like to be reminded about?');
-        setTimeout(() => {
-            const reminder = getUserInput();
-            displayBotResponse(`When would you like to be reminded about "${reminder}"?`);
-            setTimeout(() => {
-                const time = getUserInput();
-                localStorage.setItem('reminder', `${reminder} at ${time}`); // Code to save the reminder
-                displayBotResponse(`Reminder set for ${time}: ${reminder}.`);
-            }, 3000);
-        }, 3000);
-        break;
-
-
-
-
-
-
-    // 19. Create Personal Workflows
-    case 'create workflow':
-        displayBotResponse('What workflow would you like to create?');
-        setTimeout(() => {
-            const workflow = getUserInput();
-            localStorage.setItem('workflow', workflow); // Store the custom command in localStorage or a backend service
-            displayBotResponse(`Workflow "${workflow}" has been created successfully!`);
-        }, 3000);
-        break;
-
-    // 20. Discover New Recipes
-    case 'find recipe':
-        displayBotResponse('What ingredient do you want to use?');
-        setTimeout(() => {
-            const ingredient = getUserInput();
-            window.open(`https://www.google.com/search?q=${ingredient}+recipe`, '_blank');
-            displayBotResponse(`Here’s a great recipe using ${ingredient}! 🍽️`);
-        }, 3000);
-        break;
-
-    // 21. Exercise Routine Suggestions
-    case 'suggest workout':
-        displayBotResponse('What type of exercise are you in the mood for? (e.g., cardio, strength, yoga)');
-        setTimeout(() => {
-            const workoutType = getUserInput();
-            displayBotResponse(`Here’s a ${workoutType} workout you can try:`);
-            window.open(`https://www.youtube.com/results?search_query=${workoutType}+workout`, '_blank');
-        }, 3000);
-        break;
-
-    // 22. Sleep Assistance & Relaxation Techniques
-    case 'relax':
-        displayBotResponse('Would you like some relaxing music or a guided meditation?');
-        setTimeout(() => {
-            const choice = getUserInput();
-            if (choice.toLowerCase() === 'music') {
-                window.open('https://www.youtube.com/results?search_query=relaxing+music', '_blank');
-                displayBotResponse('Here’s some relaxing music for you... 🎶');
-            } else if (choice.toLowerCase() === 'meditation') {
-                window.open('https://www.youtube.com/results?search_query=guided+meditation', '_blank');
-                displayBotResponse('Here’s a guided meditation to help you relax... 🧘‍♂️');
-            }
-        }, 3000);
-        break;
-
-
-
-    // 24. Habit Tracking
-    case 'track habit':
-        displayBotResponse('What habit would you like to track?');
-        setTimeout(() => {
-            const habit = getUserInput();
-            localStorage.setItem('habit', habit); // Code to track habit progress
-            displayBotResponse(`You’re now tracking your progress on: ${habit}`);
-        }, 3000);
-        break;
-
-    // 25. Daily Reflection or Journaling Prompts
-    case 'daily reflection':
-        displayBotResponse('Here’s today’s reflection prompt: "What was the best part of your day?"');
-        setTimeout(() => {
-            const reflection = getUserInput();
-            localStorage.setItem('reflection', reflection); // Code to save the reflection response
-            displayBotResponse('Thanks for sharing! It’s important to reflect on the positives.');
-        }, 3000);
-        break;
-
-    case 'journal':
-        displayBotResponse('What would you like to journal about today?');
-        setTimeout(() => {
-            const entry = getUserInput();
-            localStorage.setItem('journal', entry); // Code to save the journal entry
-            displayBotResponse('Your journal entry has been saved.');
-        }, 3000);
-        break;
-
-    
-
-    // 27. Mental Health Check-In
-    case 'mental health check-in':
-        displayBotResponse('How are you feeling today? (e.g., happy, sad, stressed)');
-        setTimeout(() => {
-            const feeling = getUserInput();
-            localStorage.setItem('mentalHealth', feeling); // Code to save the user’s mood
-            displayBotResponse(`Thanks for sharing. I’m here to help if you need anything.`);
-        }, 3000);
-        break;
-
-    default:
-            displayBotResponse("I'm sorry, I didn't understand that command.");
-            break;
-    }
-
-        
-}
-
-function fetchWeather() {
-    displayBotResponse("Fetching weather information...");
-    window.open('https://worldweather.wmo.int/en/home.html', '_blank');
-}
-
-function showTrends() {
-    displayBotResponse("Fetching trending searches...");
-    window.open('https://trends.google.com/trends/', '_blank');
-}
-
-function showWorldNews() {
-    displayBotResponse("Fetching world news...");
-    window.open('https://www.bbc.com/news/world', '_blank');
-}
-
-function setTimer(duration) {
-    setTimeout(() => displayBotResponse('Time is up!'), duration);
-}
-
-function startPlayingMusic(url) {
-    let audio = new Audio(url);
-    audio.play();
-}
-
-function orderPizza() {
-    window.open('https://www.dominos.com/', '_blank');
-}
-
-function getLatestNews() {
-    displayBotResponse('Fetching latest news...');
-    window.open('https://news.google.com/', '_blank');
-}
-
-function setAlarm(time) {
-    displayBotResponse(`Alarm set for ${time}.`);
-    // Additional implementation needed to actually set an alarm
-}
-
-function setReminder(task) {
-    displayBotResponse(`Reminder set for ${task}.`);
-    // Additional implementation needed to actually set a reminder
-}
-
-function controlSmartDevice(device, action) {
-    displayBotResponse(`Turning ${action} the ${device}.`);
-    // Additional implementation needed to actually control smart devices
-}
-
-document.getElementById('start-listening').addEventListener('click', startListening);
-</script>
+    output.textContent = `Processing: "${transcript}"`;
+    fetchOpenAIResponse(transcript);
+  };
+
+  recognition.onerror = () => {
+    output.textContent = "Error occurred. Please try again.";
+    stopAudioVisualization();
+  };
+
+  recognition.onend = () => {
+    isListening = false;
+    glowIndicator.style.opacity = "0";
+    stopAudioVisualization();
+  };
+};
+
+// Start Visualizing Audio Input
+const startAudioVisualization = async () => {
+  audioContext = new (window.AudioContext || window.webkitAudioContext)();
+  const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+  microphone = audioContext.createMediaStreamSource(stream);
+  analyser = audioContext.createAnalyser();
+  microphone.connect(analyser);
+  analyser.fftSize = 256;
+
+  const dataArray = new Uint8Array(analyser.frequencyBinCount);
+  const visualize = () => {
+    analyser.getByteFrequencyData(dataArray);
+    const volume = Math.max(...dataArray) / 255;
+    glowIndicator.style.boxShadow = `0 0 ${30 + volume * 50}px ${10 + volume * 20}px rgba(0, 123, 255, ${0.5 + volume * 0.5})`;
+    if (isListening) requestAnimationFrame(visualize);
+  };
+  visualize();
+};
+
+const stopAudioVisualization = () => {
+  if (audioContext) {
+    audioContext.close();
+    glowIndicator.style.boxShadow = "0 0 30px 10px rgba(0, 123, 255, 0.5)";
+  }
+};
+
+// OpenAI Integration
+const fetchOpenAIResponse = async (query) => {
+  const response = await fetch('https://api.openai.com/v1/chat/completions', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer YOUR_OPENAI_API_KEY`
+    },
+    body: JSON.stringify({
+      model: 'gpt-4',
+      messages: [{ role: 'user', content: query }]
+    })
+  });
+  const data = await response.json();
+  output.textContent = data.choices[0]?.message?.content || "No response from OpenAI.";
+};
+
+// Control Buttons
+startBtn.addEventListener('click', () => {
+  if (!isListening) {
+    initRecognition();
+    recognition.start();
+  }
+});
+
+holdBtn.addEventListener('click', () => {
+  if (isListening) recognition.stop();
+});
+
+endBtn.addEventListener('click', () => {
+  if (isListening) recognition.stop();
+});
+
+  </script>
 </body>
 </html>
