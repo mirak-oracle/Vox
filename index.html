@@ -15,23 +15,18 @@
     gtag('js', new Date());
     gtag('config', 'G-ZY9S9E5VGC');
   </script>
-  
+
   <style>
     @keyframes pulse {
       0%, 100% { transform: scale(1); }
       50% { transform: scale(1.05); }
     }
-    .pulse {
-      animation: pulse 2s infinite;
+    @keyframes glow {
+      0%, 100% { box-shadow: 0 0 10px rgba(255, 255, 255, 0.3); }
+      50% { box-shadow: 0 0 20px rgba(255, 255, 255, 0.6); }
     }
-    .eye {
-      transition: all 0.3s ease;
-    }
-    .eyebrow {
-      transition: all 0.3s ease;
-    }
-    .mouth {
-      transition: all 0.3s ease;
+    .glow {
+      animation: glow 2s infinite;
     }
     .speaking .mouth {
       animation: speak 0.3s infinite alternate;
@@ -42,36 +37,34 @@
     }
   </style>
 </head>
-<body class="bg-gradient-to-r from-blue-100 to-purple-100 min-h-screen font-sans">
-  <div class="container mx-auto px-4 py-8">
-    <h1 class="text-4xl font-bold text-center text-indigo-700 mb-8">Vox - Voice-Activated Assistant</h1>
-    
-    <div class="flex justify-center mb-8">
-      <button id="start-listening" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-6 rounded-full shadow-lg transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 inline-block mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" />
-        </svg>
-        Start Listening
-      </button>
-    </div>
-
-    <div id="face" class="w-48 h-48 mx-auto mb-8 bg-gradient-to-b from-yellow-300 to-yellow-400 rounded-full shadow-xl relative overflow-hidden pulse">
-      <div class="eye left-eye absolute w-8 h-8 bg-white rounded-full border-2 border-gray-800 top-12 left-10"></div>
-      <div class="eye right-eye absolute w-8 h-8 bg-white rounded-full border-2 border-gray-800 top-12 right-10"></div>
-      <div class="eyebrow left-eyebrow absolute w-12 h-2 bg-yellow-700 rounded-full top-8 left-8 transform -rotate-15"></div>
-      <div class="eyebrow right-eyebrow absolute w-12 h-2 bg-yellow-700 rounded-full top-8 right-8 transform rotate-15"></div>
-      <div class="mouth absolute w-24 h-6 bg-red-500 bottom-12 left-12 rounded-full"></div>
-    </div>
-
-    <div id="conversation" class="bg-white rounded-lg shadow-xl p-6 max-w-2xl mx-auto">
-      <div id="user-messages" class="space-y-4 mb-4"></div>
-      <div id="bot-responses" class="space-y-4"></div>
-    </div>
-
-    
+<body class="bg-gray-900 text-gray-100 min-h-screen flex flex-col items-center justify-center">
+  <!-- Notification Banner -->
+  <div id="notification-banner" class="bg-gradient-to-r from-purple-500 to-blue-500 text-white py-2 px-4 rounded-md mb-6 shadow-md glow">
+    <p class="text-center">Welcome to Vox! Your voice assistant is ready to help.</p>
   </div>
 
-  
+  <!-- Status Indicator and Controls -->
+  <div class="flex items-center space-x-4 mb-6">
+    <div id="status-indicator" class="w-4 h-4 bg-green-500 rounded-full glow"></div>
+    <p id="status-text" class="text-sm">Listening...</p>
+    <button id="end-listening" class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full shadow-lg">End</button>
+  </div>
+
+  <!-- Assistant Face -->
+  <div id="face" class="relative w-48 h-48 rounded-full bg-gradient-to-b from-blue-700 to-purple-700 flex items-center justify-center shadow-lg glow">
+    <div class="eye left-eye absolute w-6 h-6 bg-white rounded-full top-12 left-12"></div>
+    <div class="eye right-eye absolute w-6 h-6 bg-white rounded-full top-12 right-12"></div>
+    <div class="mouth absolute w-20 h-6 bg-red-500 bottom-8 rounded-full"></div>
+  </div>
+
+  <!-- Conversation Box -->
+  <div id="conversation" class="bg-gray-800 rounded-lg shadow-xl p-6 max-w-2xl w-full mt-6">
+    <div id="user-messages" class="space-y-4 mb-4"></div>
+    <div id="bot-responses" class="space-y-4"></div>
+  </div>
+</body>
+</html>
+
 <script>
     const recognition = new webkitSpeechRecognition();
     recognition.lang =  'en-US', 'es-ES', 'fr-FR', 'de-DE', 'it-IT', 
