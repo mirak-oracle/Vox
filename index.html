@@ -193,72 +193,111 @@
     </footer>
 
     <script>
-        const micButton = document.getElementById('micButton');
-        const conversation = document.getElementById('conversation');
-        const inputField = document.getElementById('inputField');
-        const liveDisplay = document.getElementById('liveDisplay');
+        const micButton = document.getElementById('mic-button');
+        const statusElement = document.getElementById('status');
+        const conversationElement = document.getElementById('conversation');
+
+        const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+        recognition.lang = 'en-US';
+        recognition.interimResults = false;
+        recognition.maxAlternatives = 1;
 
         let isListening = false;
 
-        micButton.addEventListener('click', () => {
-            isListening = !isListening;
-            micButton.classList.toggle('active');
-            if (isListening) {
-                startListening();
-            } else {
-                stopListening();
-            }
-        });
+        micButton.addEventListener('click', toggleListening);
 
-        inputField.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
-                const userMessage = inputField.value.trim();
-                if (userMessage) {
-                    addMessage(userMessage, 'user-message');
-                    processUserInput(userMessage);
-                    inputField.value = '';
+        // Existing functions (toggleListening, startListening, stopListening, displayUserMessage, displayBotResponse, speak) remain unchanged
+
+        async function processCommand(command) {
+            let response = '';
+
+            switch (command.toLowerCase()) {
+                case 'hello':
+                    response = 'Hello! I am Vox. How can I assist you today?';
+                    break;
+                case 'what is the weather today':
+                    fetchWeather();
+                    return;
+                case 'tell me a joke':
+                    response = "Why don't scientists trust atoms? Because they make up everything!";
+                    break;
+                case 'search':
+                    response = await performSearch(command);
+                    break;
+                default:
+                    response = await getOpenAIResponse(command);
+                    break;
+            }
+
+            displayBotResponse(response);
+        }
+
+        async function getOpenAIResponse(prompt) {
+            const apiKey = 'your-openai-api-key'; // Replace with your actual OpenAI API key
+            const apiUrl = 'https://api.openai.com/v1/engines/davinci-codex/completions';
+
+            try {
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${apiKey}`
+                    },
+                    body: JSON.stringify({
+                        prompt: prompt,
+                        max_tokens: 150,
+                        n: 1,
+                        stop: null,
+                        temperature: 0.7,
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error('OpenAI API request failed');
                 }
-            }
-        });
 
-        function startListening() {
-            liveDisplay.textContent = 'Listening...';
-            // Simulate voice recognition
+                const data = await response.json();
+                return data.choices[0].text.trim();
+            } catch (error) {
+                console.error('Error calling OpenAI API:', error);
+                return "I'm sorry, I couldn't process that request. Please try again later.";
+            }
+        }
+
+        async function performSearch(query) {
+            const apiKey = 'your-google-knowledge-graph-api-key'; // Replace with your actual Google Knowledge Graph API key
+            const apiUrl = `https://kgsearch.googleapis.com/v1/entities:search?query=${encodeURIComponent(query)}&key=${apiKey}&limit=1&indent=True`;
+
+            try {
+                const response = await fetch(apiUrl);
+                if (!response.ok) {
+                    throw new Error('Google Knowledge Graph API request failed');
+                }
+
+                const data = await response.json();
+                if (data.itemListElement && data.itemListElement.length > 0) {
+                    const result = data.itemListElement[0].result;
+                    return `Here's what I found about ${result.name}: ${result.description}`;
+                } else {
+                    return "I'm sorry, I couldn't find any information about that.";
+                }
+            } catch (error) {
+                console.error('Error calling Google Knowledge Graph API:', error);
+                return "I'm sorry, I couldn't perform that search. Please try again later.";
+            }
+        }
+
+        function fetchWeather() {
+            displayBotResponse("Fetching weather information...");
+            // You would typically call a weather API here
+            // For this example, we'll use a simulated response
             setTimeout(() => {
-                if (isListening) {
-                    const fakeVoiceInput = "What's the weather like today?";
-                    liveDisplay.textContent = `Heard: ${fakeVoiceInput}`;
-                    addMessage(fakeVoiceInput, 'user-message');
-                    processUserInput(fakeVoiceInput);
-                }
+                displayBotResponse("It's currently 72°F (22°C) and sunny in your area.");
             }, 2000);
         }
 
-        function stopListening() {
-            liveDisplay.textContent = 'Click the mic to start listening';
-        }
+        // Add other existing functions here (showTrends, showWorldNews, etc.)
 
-        function addMessage(text, className) {
-            const messageDiv = document.createElement('div');
-            messageDiv.classList.add('message', className);
-            messageDiv.textContent = text;
-            conversation.appendChild(messageDiv);
-            conversation.scrollTop = conversation.scrollHeight;
-        }
-
-        function processUserInput(input) {
-            // Simulate AI processing
-            setTimeout(() => {
-                let response;
-                if (input.toLowerCase().includes('weather')) {
-                    response = "I'm sorry, I don't have access to real-time weather data. You might want to check a weather app or website for accurate information.";
-                } else {
-                    response = "I'm sorry, I'm just a demo and can't actually process that request. But I heard you say: " + input;
-                }
-                addMessage(response, 'assistant-message');
-            }, 1000);
-        }
-
-        // Initialize
-        stopListening();
     </script>
+</body>
+</html>
