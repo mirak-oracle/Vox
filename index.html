@@ -3,65 +3,144 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Vox - Voice-Activated Assistant</title>
+  <title>Vox - Modern Voice Assistant</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
 
-  <!-- Google Analytics -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZY9S9E5VGC"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-ZY9S9E5VGC');
-  </script>
-
   <style>
-    @keyframes pulse {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.05); }
+    /* Keyframe Animations */
+    @keyframes glowing {
+      0% { box-shadow: 0 0 10px #ff7eb3; }
+      50% { box-shadow: 0 0 20px #ffa6ff; }
+      100% { box-shadow: 0 0 10px #ff7eb3; }
     }
-    @keyframes glow {
-      0%, 100% { box-shadow: 0 0 10px rgba(255, 255, 255, 0.3); }
-      50% { box-shadow: 0 0 20px rgba(255, 255, 255, 0.6); }
+
+    /* Dark Theme and Glowing Effect */
+    body {
+      background: linear-gradient(135deg, #1e1e2f, #121212);
+      color: #ffffff;
+      font-family: 'Arial', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+      margin: 0;
     }
-    .glow {
-      animation: glow 2s infinite;
+
+    .card {
+      background: #2a2a3d;
+      border-radius: 1rem;
+      padding: 2rem;
+      max-width: 600px;
+      width: 100%;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+      text-align: center;
     }
-    .speaking .mouth {
-      animation: speak 0.3s infinite alternate;
+
+    .status-indicator {
+      height: 12px;
+      width: 12px;
+      display: inline-block;
+      background-color: #00ff00;
+      border-radius: 50%;
+      margin-right: 0.5rem;
     }
-    @keyframes speak {
-      0% { transform: scaleY(1); }
-      100% { transform: scaleY(1.5); }
+
+    .glowing-button {
+      background: linear-gradient(to right, #ff7eb3, #ffa6ff);
+      color: white;
+      padding: 0.75rem 1.5rem;
+      border-radius: 25px;
+      font-size: 1rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+      animation: glowing 1.5s infinite;
+    }
+
+    .glowing-button:hover {
+      transform: scale(1.1);
+    }
+
+    .notification {
+      background: #404052;
+      padding: 1rem;
+      border-radius: 8px;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .notification span {
+      font-size: 0.9rem;
+    }
+
+    .notification .close {
+      color: #aaa;
+      cursor: pointer;
+      font-size: 1.2rem;
+    }
+
+    .gradient-circle {
+      background: radial-gradient(circle, #ff7eb3, #ffa6ff, #7f00ff);
+      height: 200px;
+      width: 200px;
+      border-radius: 50%;
+      margin: 2rem auto;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 25px #7f00ff;
+    }
+
+    .gradient-circle::after {
+      content: '';
+      position: absolute;
+      height: 150px;
+      width: 150px;
+      background: #2a2a3d;
+      border-radius: 50%;
     }
   </style>
 </head>
-<body class="bg-gray-900 text-gray-100 min-h-screen flex flex-col items-center justify-center">
-  <!-- Notification Banner -->
-  <div id="notification-banner" class="bg-gradient-to-r from-purple-500 to-blue-500 text-white py-2 px-4 rounded-md mb-6 shadow-md glow">
-    <p class="text-center">Welcome to Vox! Your voice assistant is ready to help.</p>
+<body>
+  <div class="card">
+    <div class="notification">
+      <span>Vox is active and listening.</span>
+      <i class="fas fa-times close"></i>
+    </div>
+
+    <div class="gradient-circle">
+      <div class="status-indicator"></div>
+    </div>
+
+    <h1 class="text-2xl font-bold mb-4">Vox - Your AI Assistant</h1>
+    <p class="mb-6">"Ask anything or control your smart devices effortlessly."</p>
+
+    <button class="glowing-button" id="hold-button">Hold to Speak</button>
+    <button class="glowing-button" id="end-button" style="margin-top: 1rem;">End</button>
   </div>
 
-  <!-- Status Indicator and Controls -->
-  <div class="flex items-center space-x-4 mb-6">
-    <div id="status-indicator" class="w-4 h-4 bg-green-500 rounded-full glow"></div>
-    <p id="status-text" class="text-sm">Listening...</p>
-    <button id="end-listening" class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full shadow-lg">End</button>
-  </div>
+  <script>
+    const holdButton = document.getElementById('hold-button');
+    const endButton = document.getElementById('end-button');
+    const closeIcon = document.querySelector('.close');
 
-  <!-- Assistant Face -->
-  <div id="face" class="relative w-48 h-48 rounded-full bg-gradient-to-b from-blue-700 to-purple-700 flex items-center justify-center shadow-lg glow">
-    <div class="eye left-eye absolute w-6 h-6 bg-white rounded-full top-12 left-12"></div>
-    <div class="eye right-eye absolute w-6 h-6 bg-white rounded-full top-12 right-12"></div>
-    <div class="mouth absolute w-20 h-6 bg-red-500 bottom-8 rounded-full"></div>
-  </div>
+    holdButton.addEventListener('click', () => {
+      alert('Listening... Speak now.');
+    });
 
-  <!-- Conversation Box -->
-  <div id="conversation" class="bg-gray-800 rounded-lg shadow-xl p-6 max-w-2xl w-full mt-6">
-    <div id="user-messages" class="space-y-4 mb-4"></div>
-    <div id="bot-responses" class="space-y-4"></div>
-  </div>
+    endButton.addEventListener('click', () => {
+      alert('Voice session ended.');
+    });
+
+    closeIcon.addEventListener('click', () => {
+      document.querySelector('.notification').style.display = 'none';
+    });
+  </script>
 </body>
 </html>
 
