@@ -1,80 +1,151 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Vox - Voice-Activated Assistant</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-
-  <!-- Google Analytics -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZY9S9E5VGC"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-ZY9S9E5VGC');
-  </script>
-  
-  <style>
-    @keyframes pulse {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.05); }
-    }
-    .pulse {
-      animation: pulse 2s infinite;
-    }
-    .eye {
-      transition: all 0.3s ease;
-    }
-    .eyebrow {
-      transition: all 0.3s ease;
-    }
-    .mouth {
-      transition: all 0.3s ease;
-    }
-    .speaking .mouth {
-      animation: speak 0.3s infinite alternate;
-    }
-    @keyframes speak {
-      0% { transform: scaleY(1); }
-      100% { transform: scaleY(1.5); }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vox - Voice-Activated Assistant</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <style>
+        :root {
+            --primary-color: #4a148c;
+            --secondary-color: #7c43bd;
+            --accent-color: #b085f5;
+            --background-color: #f5f0ff;
+            --text-color: #333333;
+        }
+        
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+        }
+        
+        .navbar-brand {
+            font-weight: 700;
+            color: var(--primary-color) !important;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--secondary-color);
+            border-color: var(--secondary-color);
+        }
+        
+        .card {
+            border: none;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .card-header {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        #face {
+            width: 200px;
+            height: 200px;
+            background-color: var(--accent-color);
+            border-radius: 50%;
+            position: relative;
+            margin: 2rem auto;
+        }
+        
+        .eye {
+            width: 40px;
+            height: 40px;
+            background-color: white;
+            border-radius: 50%;
+            position: absolute;
+            top: 50px;
+        }
+        
+        .eye.left { left: 40px; }
+        .eye.right { right: 40px; }
+        
+        .mouth {
+            width: 80px;
+            height: 20px;
+            background-color: #d32f2f;
+            border-radius: 0 0 40px 40px;
+            position: absolute;
+            bottom: 50px;
+            left: 60px;
+        }
+    </style>
 </head>
-<body class="bg-gradient-to-r from-blue-100 to-purple-100 min-h-screen font-sans">
-  <div class="container mx-auto px-4 py-8">
-    <h1 class="text-4xl font-bold text-center text-indigo-700 mb-8">Vox - Voice-Activated Assistant</h1>
-    
-    <div class="flex justify-center mb-8">
-      <button id="start-listening" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-6 rounded-full shadow-lg transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 inline-block mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" />
-        </svg>
-        Start Listening
-      </button>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container">
+            <a class="navbar-brand" href="#">Vox</a>
+        </div>
+    </nav>
+
+    <div class="container my-5">
+        <h1 class="text-center mb-5">Voice-Activated Assistant</h1>
+        
+        <div id="face">
+            <div class="eye left"></div>
+            <div class="eye right"></div>
+            <div class="mouth"></div>
+        </div>
+        
+        <div class="text-center mb-5">
+            <button class="btn btn-primary btn-lg">
+                <i class="bi bi-mic-fill me-2"></i>Start Listening
+            </button>
+        </div>
+        
+        <div class="row">
+            <div class="col-md-8 mx-auto">
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5 class="mb-0">Conversation</h5>
+                    </div>
+                    <div class="card-body">
+                        <div id="conversation" class="mb-3">
+                            <!-- Conversation messages will be dynamically added here -->
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0">Available Commands</h5>
+                    </div>
+                    <div class="card-body">
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">"What's the weather like?"</li>
+                            <li class="list-group-item">"Tell me a joke"</li>
+                            <li class="list-group-item">"What time is it?"</li>
+                            <li class="list-group-item">"Set a timer for [X] minutes"</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <div id="face" class="w-48 h-48 mx-auto mb-8 bg-gradient-to-b from-yellow-300 to-yellow-400 rounded-full shadow-xl relative overflow-hidden pulse">
-      <div class="eye left-eye absolute w-8 h-8 bg-white rounded-full border-2 border-gray-800 top-12 left-10"></div>
-      <div class="eye right-eye absolute w-8 h-8 bg-white rounded-full border-2 border-gray-800 top-12 right-10"></div>
-      <div class="eyebrow left-eyebrow absolute w-12 h-2 bg-yellow-700 rounded-full top-8 left-8 transform -rotate-15"></div>
-      <div class="eyebrow right-eyebrow absolute w-12 h-2 bg-yellow-700 rounded-full top-8 right-8 transform rotate-15"></div>
-      <div class="mouth absolute w-24 h-6 bg-red-500 bottom-12 left-12 rounded-full"></div>
-    </div>
+    <footer class="bg-light py-3 mt-5">
+        <div class="container text-center">
+            <p class="mb-0">&copy; 2023 Vox Voice Assistant. All rights reserved.</p>
+        </div>
+    </footer>
 
-    <div id="conversation" class="bg-white rounded-lg shadow-xl p-6 max-w-2xl mx-auto">
-      <div id="user-messages" class="space-y-4 mb-4"></div>
-      <div id="bot-responses" class="space-y-4"></div>
-    </div>
-
-    
-  </div>
-
-  
+    <!-- Bootstrap JS (optional, for certain interactive components) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
-
   <script>
     const recognition = new webkitSpeechRecognition();
     recognition.lang =  'en-US', 'es-ES', 'fr-FR', 'de-DE', 'it-IT', 
