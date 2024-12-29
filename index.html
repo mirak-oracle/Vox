@@ -193,112 +193,104 @@
     </footer>
 
     <script>
-        const micButton = document.getElementById('mic-button');
-        const statusElement = document.getElementById('status');
-        const conversationElement = document.getElementById('conversation');
+        const micButton = document.getElementById('micButton');
+        const liveDisplay = document.getElementById('liveDisplay');
+        const conversation = document.getElementById('conversation');
+        const inputField = document.getElementById('inputField');
 
+        // Replace with your API keys
+        const OPENAI_API_KEY = "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
+";
+        const GOOGLE_KG_API_KEY = "AIzaSyCC4T4Jt40nPZwGQT0GEU-SJEf5eszUc0o";
+
+        // Web Speech Recognition
         const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
         recognition.lang = 'en-US';
         recognition.interimResults = false;
-        recognition.maxAlternatives = 1;
 
-        let isListening = false;
-
-        micButton.addEventListener('click', toggleListening);
-
-        // Existing functions (toggleListening, startListening, stopListening, displayUserMessage, displayBotResponse, speak) remain unchanged
-
-        async function processCommand(command) {
-            let response = '';
-
-            switch (command.toLowerCase()) {
-                case 'hello':
-                    response = 'Hello! I am Vox. How can I assist you today?';
-                    break;
-                case 'what is the weather today':
-                    fetchWeather();
-                    return;
-                case 'tell me a joke':
-                    response = "Why don't scientists trust atoms? Because they make up everything!";
-                    break;
-                case 'search':
-                    response = await performSearch(command);
-                    break;
-                default:
-                    response = await getOpenAIResponse(command);
-                    break;
+        micButton.addEventListener('click', () => {
+            if (recognition.listening) {
+                recognition.stop();
+                liveDisplay.textContent = 'Click the microphone to start listening...';
+            } else {
+                recognition.start();
+                liveDisplay.textContent = 'Listening...';
             }
+        });
 
-            displayBotResponse(response);
+        recognition.addEventListener('result', (event) => {
+            const command = event.results[0][0].transcript;
+            displayUserMessage(command);
+            processCommand(command);
+        });
+
+        recognition.addEventListener('end', () => {
+            liveDisplay.textContent = 'Click the microphone to start listening...';
+        });
+
+        function displayUserMessage(message) {
+            const messageElement = document.createElement('div');
+            messageElement.textContent = message;
+            messageElement.className = 'message user-message';
+            conversation.appendChild(messageElement);
         }
 
-        async function getOpenAIResponse(prompt) {
-            const apiKey = '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
-'; // Replace with your actual OpenAI API key
-            const apiUrl = 'https://api.openai.com/v1/engines/davinci-codex/completions';
+        function displayBotResponse(response) {
+            const messageElement = document.createElement('div');
+            messageElement.textContent = response;
+            messageElement.className = 'message assistant-message';
+            conversation.appendChild(messageElement);
+        }
 
+        async function processCommand(command) {
+            if (command.toLowerCase().includes("search")) {
+                const query = command.replace("search", "").trim();
+                const knowledgeGraphResult = await fetchGoogleKnowledgeGraph(query);
+                displayBotResponse(knowledgeGraphResult || "I couldn't find any information about that.");
+            } else {
+                const openAIResult = await fetchOpenAIResponse(command);
+                displayBotResponse(openAIResult || "I'm sorry, I didn't understand that.");
+            }
+        }
+
+        async function fetchOpenAIResponse(prompt) {
             try {
-                const response = await fetch(apiUrl, {
-                    method: 'POST',
+                const response = await fetch("https://api.openai.com/v1/completions", {
+                    method: "POST",
                     headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${apiKey}`
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${OPENAI_API_KEY}`
                     },
                     body: JSON.stringify({
+                        model: "text-davinci-003",
                         prompt: prompt,
-                        max_tokens: 150,
-                        n: 1,
-                        stop: null,
-                        temperature: 0.7,
+                        max_tokens: 150
                     })
                 });
-
-                if (!response.ok) {
-                    throw new Error('OpenAI API request failed');
-                }
-
                 const data = await response.json();
                 return data.choices[0].text.trim();
             } catch (error) {
-                console.error('Error calling OpenAI API:', error);
-                return "I'm sorry, I couldn't process that request. Please try again later.";
+                console.error("Error calling OpenAI API:", error);
+                return "There was an error fetching the response from OpenAI.";
             }
         }
 
-        async function performSearch(query) {
-            const apiKey = 'AIzaSyCC4T4Jt40nPZwGQT0GEU-SJEf5eszUc0o'; // Replace with your actual Google Knowledge Graph API key
-            const apiUrl = `https://kgsearch.googleapis.com/v1/entities:search?query=${encodeURIComponent(query)}&key=${apiKey}&limit=1&indent=True`;
-
+        async function fetchGoogleKnowledgeGraph(query) {
             try {
-                const response = await fetch(apiUrl);
-                if (!response.ok) {
-                    throw new Error('Google Knowledge Graph API request failed');
-                }
-
+                const response = await fetch(
+                    `https://kgsearch.googleapis.com/v1/entities:search?query=${encodeURIComponent(query)}&key=${GOOGLE_KG_API_KEY}&limit=1`
+                );
                 const data = await response.json();
                 if (data.itemListElement && data.itemListElement.length > 0) {
-                    const result = data.itemListElement[0].result;
-                    return `Here's what I found about ${result.name}: ${result.description}`;
+                    return data.itemListElement[0].result.description || "No detailed description available.";
                 } else {
-                    return "I'm sorry, I couldn't find any information about that.";
+                    return "No results found.";
                 }
             } catch (error) {
-                console.error('Error calling Google Knowledge Graph API:', error);
-                return "I'm sorry, I couldn't perform that search. Please try again later.";
+                console.error("Error calling Google Knowledge Graph API:", error);
+                return "There was an error fetching the response from Google Knowledge Graph.";
             }
         }
-
-        function fetchWeather() {
-            displayBotResponse("Fetching weather information...");
-            // You would typically call a weather API here
-            // For this example, we'll use a simulated response
-            setTimeout(() => {
-                displayBotResponse("It's currently 72°F (22°C) and sunny in your area.");
-            }, 2000);
-        }
-
-        // Add other existing functions here (showTrends, showWorldNews, etc.)
-
     </script>
 </body>
 </html>
