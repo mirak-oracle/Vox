@@ -233,7 +233,8 @@
         }
 
         async function getOpenAIResponse(prompt) {
-            const apiKey = 'your-openai-api-key'; // Replace with your actual OpenAI API key
+            const apiKey = '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
+'; // Replace with your actual OpenAI API key
             const apiUrl = 'https://api.openai.com/v1/engines/davinci-codex/completions';
 
             try {
@@ -265,7 +266,7 @@
         }
 
         async function performSearch(query) {
-            const apiKey = 'your-google-knowledge-graph-api-key'; // Replace with your actual Google Knowledge Graph API key
+            const apiKey = 'AIzaSyCC4T4Jt40nPZwGQT0GEU-SJEf5eszUc0o'; // Replace with your actual Google Knowledge Graph API key
             const apiUrl = `https://kgsearch.googleapis.com/v1/entities:search?query=${encodeURIComponent(query)}&key=${apiKey}&limit=1&indent=True`;
 
             try {
