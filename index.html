@@ -57,14 +57,19 @@
 
   <script>
     // OpenAI API key (replace with your key)
-    const OPENAI_API_KEY = "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
-";
+    const OPENAI_API_KEY = "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";
 
     // Webkit Speech Recognition setup
-    const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
-    recognition.continuous = true;
-    recognition.interimResults = false;
-    recognition.lang = "en-US";
+    let recognition;
+    try {
+      recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+      recognition.continuous = true;
+      recognition.interimResults = false;
+      recognition.lang = "en-US";
+    } catch (e) {
+      console.error("Speech recognition not supported:", e);
+      alert("Speech recognition is not supported in this browser. Please try using Google Chrome.");
+    }
 
     let isListening = false;
     let isHolding = false;
@@ -78,17 +83,24 @@
 
     // Start Listening
     function startListening() {
+      if (!recognition) return;
       if (!isListening && !isHolding) {
-        recognition.start();
-        isListening = true;
-        updateStatus("Listening...");
-        startBtn.classList.add("glow-effect");
-        startAudioVisualization();
+        try {
+          recognition.start();
+          isListening = true;
+          updateStatus("Listening...");
+          startBtn.classList.add("glow-effect");
+          startAudioVisualization();
+        } catch (e) {
+          console.error("Error starting recognition:", e);
+          updateStatus("Error: Could not start listening");
+        }
       }
     }
 
     // Hold Listening
     function holdListening() {
+      if (!recognition) return;
       if (isListening) {
         recognition.stop();
         isListening = false;
@@ -98,18 +110,24 @@
         holdBtn.classList.add("glow-effect");
         stopAudioVisualization();
       } else if (isHolding) {
-        recognition.start();
-        isListening = true;
-        isHolding = false;
-        updateStatus("Listening...");
-        startBtn.classList.add("glow-effect");
-        holdBtn.classList.remove("glow-effect");
-        startAudioVisualization();
+        try {
+          recognition.start();
+          isListening = true;
+          isHolding = false;
+          updateStatus("Listening...");
+          startBtn.classList.add("glow-effect");
+          holdBtn.classList.remove("glow-effect");
+          startAudioVisualization();
+        } catch (e) {
+          console.error("Error resuming recognition:", e);
+          updateStatus("Error: Could not resume listening");
+        }
       }
     }
 
     // Stop Listening
     function stopListening() {
+      if (!recognition) return;
       if (isListening || isHolding) {
         recognition.stop();
         isListening = false;
@@ -140,7 +158,7 @@
             Authorization: `Bearer ${OPENAI_API_KEY}`,
           },
           body: JSON.stringify({
-            model: "gpt-4",
+            model: "gpt-3.5-turbo",
             messages: [{ role: "user", content: userMessage }],
           }),
         });
@@ -165,14 +183,21 @@
     }
 
     // Handle voice recognition results
-    recognition.onresult = async (event) => {
-      const transcript = event.results[event.results.length - 1][0].transcript.trim();
-      displayMessage("You", transcript);
+    if (recognition) {
+      recognition.onresult = async (event) => {
+        const transcript = event.results[event.results.length - 1][0].transcript.trim();
+        displayMessage("You", transcript);
 
-      const botResponse = await fetchOpenAIResponse(transcript);
-      displayMessage("Vox", botResponse);
-      speak(botResponse);
-    };
+        const botResponse = await fetchOpenAIResponse(transcript);
+        displayMessage("Vox", botResponse);
+        speak(botResponse);
+      };
+
+      recognition.onerror = (event) => {
+        console.error("Recognition error:", event.error);
+        updateStatus("Error: " + event.error);
+      };
+    }
 
     // Update status in UI
     function updateStatus(status) {
@@ -194,7 +219,10 @@
           source = audioContext.createMediaStreamSource(stream);
           source.connect(analyser);
         })
-        .catch(err => console.error('Error accessing microphone:', err));
+        .catch(err => {
+          console.error('Error accessing microphone:', err);
+          updateStatus("Error: Microphone access denied");
+        });
 
       // Create visualizer bars
       for (let i = 0; i < NUM_BARS; i++) {
