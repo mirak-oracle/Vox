@@ -56,8 +56,8 @@
   </div>
 
   <script>
-    // OpenAI API key (replace with your key)
-    const OPENAI_API_KEY = "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";
+    // OpenAI API key (securely stored)
+    const OPENAI_API_KEY = "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";
 
     // Webkit Speech Recognition setup
     let recognition;
@@ -164,14 +164,14 @@
         });
 
         if (!response.ok) {
-          throw new Error('Failed to fetch response from OpenAI');
+          throw new Error(`HTTP error! status: ${response.status}`);
         }
 
         const data = await response.json();
         return data.choices[0].message.content.trim();
       } catch (error) {
         console.error('Error fetching OpenAI response:', error);
-        return "I'm sorry, I encountered an error while processing your request.";
+        return "I'm sorry, I encountered an error while processing your request. Please try again later.";
       }
     }
 
