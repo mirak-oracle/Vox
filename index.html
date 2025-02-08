@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Vox - Voice-Activated Assistant</title>
+  <title>Vox - AI Voice Assistant</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-
+  
   <!-- Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZY9S9E5VGC"></script>
   <script>
@@ -15,23 +15,14 @@
     gtag('js', new Date());
     gtag('config', 'G-ZY9S9E5VGC');
   </script>
-  
+
   <style>
     @keyframes pulse {
       0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.05); }
+      50% { transform: scale(1.08); }
     }
     .pulse {
       animation: pulse 2s infinite;
-    }
-    .eye {
-      transition: all 0.3s ease;
-    }
-    .eyebrow {
-      transition: all 0.3s ease;
-    }
-    .mouth {
-      transition: all 0.3s ease;
     }
     .speaking .mouth {
       animation: speak 0.3s infinite alternate;
@@ -40,33 +31,39 @@
       0% { transform: scaleY(1); }
       100% { transform: scaleY(1.5); }
     }
+    .glass {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+    }
   </style>
 </head>
-<body class="bg-gradient-to-r from-blue-100 to-purple-100 min-h-screen font-sans">
-  <div class="container mx-auto px-4 py-8">
-    <h1 class="text-4xl font-bold text-center text-indigo-700 mb-8">Vox - Voice-Activated Assistant</h1>
-    
-    <div class="flex justify-center mb-8">
-      <button id="start-listening" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-6 rounded-full shadow-lg transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 inline-block mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" />
-        </svg>
-        Start Listening
-      </button>
-    </div>
+<body class="bg-gradient-to-r from-blue-900 to-purple-800 min-h-screen flex flex-col items-center justify-center font-sans text-white">
 
-    <div id="face" class="w-48 h-48 mx-auto mb-8 bg-gradient-to-b from-yellow-300 to-yellow-400 rounded-full shadow-xl relative overflow-hidden pulse">
-      <div class="eye left-eye absolute w-8 h-8 bg-white rounded-full border-2 border-gray-800 top-12 left-10"></div>
-      <div class="eye right-eye absolute w-8 h-8 bg-white rounded-full border-2 border-gray-800 top-12 right-10"></div>
-      <div class="eyebrow left-eyebrow absolute w-12 h-2 bg-yellow-700 rounded-full top-8 left-8 transform -rotate-15"></div>
-      <div class="eyebrow right-eyebrow absolute w-12 h-2 bg-yellow-700 rounded-full top-8 right-8 transform rotate-15"></div>
-      <div class="mouth absolute w-24 h-6 bg-red-500 bottom-12 left-12 rounded-full"></div>
-    </div>
+  <h1 class="text-5xl font-bold text-center mb-6">Vox - AI Voice Assistant</h1>
 
-    <div id="conversation" class="bg-white rounded-lg shadow-xl p-6 max-w-2xl mx-auto">
-      <div id="user-messages" class="space-y-4 mb-4"></div>
-      <div id="bot-responses" class="space-y-4"></div>
-    </div>
+  <!-- AI Face -->
+  <div id="face" class="w-56 h-56 bg-gradient-to-b from-yellow-300 to-yellow-400 rounded-full shadow-xl relative overflow-hidden pulse">
+    <div class="eye absolute w-10 h-10 bg-white rounded-full border-4 border-gray-800 top-14 left-12"></div>
+    <div class="eye absolute w-10 h-10 bg-white rounded-full border-4 border-gray-800 top-14 right-12"></div>
+    <div class="mouth absolute w-24 h-6 bg-red-500 bottom-12 left-14 rounded-full"></div>
+  </div>
+
+  <!-- Floating Voice Button -->
+  <button id="start-listening" class="fixed bottom-10 right-10 bg-indigo-600 hover:bg-indigo-700 text-white p-4 rounded-full shadow-lg transition duration-300 ease-in-out transform hover:scale-110 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50">
+    <i class="fas fa-microphone text-2xl"></i>
+  </button>
+
+  <!-- Chat Section -->
+  <div id="conversation" class="glass rounded-lg shadow-2xl p-6 w-full max-w-2xl mt-8">
+    <div id="user-messages" class="space-y-4 mb-4"></div>
+    <div id="bot-responses" class="space-y-4"></div>
+  </div>
+
+</body>
+</html>
+
+</div>
 
     
   </div>
