@@ -1,68 +1,114 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Vox - AI Voice Assistant</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-  
-  <!-- Google Analytics -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZY9S9E5VGC"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-ZY9S9E5VGC');
-  </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vox - AI Voice Assistant</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZY9S9E5VGC"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-ZY9S9E5VGC');
+    </script>
 
-  <style>
-    @keyframes pulse {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.08); }
-    }
-    .pulse {
-      animation: pulse 2s infinite;
-    }
-    .speaking .mouth {
-      animation: speak 0.3s infinite alternate;
-    }
-    @keyframes speak {
-      0% { transform: scaleY(1); }
-      100% { transform: scaleY(1.5); }
-    }
-    .glass {
-      background: rgba(255, 255, 255, 0.1);
-      backdrop-filter: blur(12px);
-      border: 1px solid rgba(255, 255, 255, 0.3);
-    }
-  </style>
+    <style>
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        .pulse {
+            animation: pulse 3s infinite;
+        }
+        .speaking .mouth {
+            animation: speak 0.3s infinite alternate;
+        }
+        @keyframes speak {
+            0% { transform: scaleY(1); }
+            100% { transform: scaleY(1.5); }
+        }
+        .glass {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        .gradient-text {
+            background: linear-gradient(45deg, #60a5fa, #c084fc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+    </style>
 </head>
-<body class="bg-gradient-to-r from-blue-900 to-purple-800 min-h-screen flex flex-col items-center justify-center font-sans text-white">
+<body class="bg-gradient-to-br from-blue-900 via-purple-800 to-indigo-900 min-h-screen flex flex-col items-center justify-center font-sans text-white">
+    <nav class="fixed top-0 left-0 right-0 glass p-4">
+        <div class="container mx-auto flex justify-between items-center">
+            <a href="#" class="text-2xl font-bold gradient-text">Vox</a>
+            <div class="space-x-4">
+                <a href="#features" class="hover:text-blue-300 transition">Features</a>
+                <a href="#pricing" class="hover:text-blue-300 transition">Pricing</a>
+                <a href="#contact" class="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-full transition">Contact</a>
+            </div>
+        </div>
+    </nav>
 
-  <h1 class="text-5xl font-bold text-center mb-6">Vox - AI Voice Assistant</h1>
+    <main class="container mx-auto px-4 mt-20">
+        <h1 class="text-5xl font-bold text-center mb-6 gradient-text">Vox - AI Voice Assistant</h1>
+        <p class="text-xl text-center mb-12 max-w-2xl mx-auto">Your intelligent companion for seamless voice interactions. Experience the future of AI assistance.</p>
 
-  <!-- AI Face -->
-  <div id="face" class="w-56 h-56 bg-gradient-to-b from-yellow-300 to-yellow-400 rounded-full shadow-xl relative overflow-hidden pulse">
-    <div class="eye absolute w-10 h-10 bg-white rounded-full border-4 border-gray-800 top-14 left-12"></div>
-    <div class="eye absolute w-10 h-10 bg-white rounded-full border-4 border-gray-800 top-14 right-12"></div>
-    <div class="mouth absolute w-24 h-6 bg-red-500 bottom-12 left-14 rounded-full"></div>
-  </div>
+        <!-- AI Face -->
+        <div id="face" class="w-40 h-40 bg-gradient-to-b from-blue-400 to-purple-500 rounded-full shadow-xl relative overflow-hidden pulse mx-auto mb-8">
+            <div class="eye absolute w-8 h-8 bg-white rounded-full border-4 border-gray-800 top-10 left-8"></div>
+            <div class="eye absolute w-8 h-8 bg-white rounded-full border-4 border-gray-800 top-10 right-8"></div>
+            <div class="mouth absolute w-20 h-4 bg-red-500 bottom-10 left-10 rounded-full"></div>
+        </div>
 
-  <!-- Floating Voice Button -->
-  <button id="start-listening" class="fixed bottom-10 right-10 bg-indigo-600 hover:bg-indigo-700 text-white p-4 rounded-full shadow-lg transition duration-300 ease-in-out transform hover:scale-110 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50">
-    <i class="fas fa-microphone text-2xl"></i>
-  </button>
+        <!-- Chat Section -->
+        <div id="conversation" class="glass rounded-lg shadow-2xl p-6 w-full max-w-2xl mx-auto mb-12">
+            <div id="user-messages" class="space-y-4 mb-4"></div>
+            <div id="bot-responses" class="space-y-4"></div>
+        </div>
 
-  <!-- Chat Section -->
-  <div id="conversation" class="glass rounded-lg shadow-2xl p-6 w-full max-w-2xl mt-8">
-    <div id="user-messages" class="space-y-4 mb-4"></div>
-    <div id="bot-responses" class="space-y-4"></div>
-  </div>
+        <!-- Features Section -->
+        <section id="features" class="py-16">
+            <h2 class="text-3xl font-bold text-center mb-12 gradient-text">Why Choose Vox?</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="glass p-6 rounded-lg text-center">
+                    <i class="fas fa-brain text-4xl mb-4 text-blue-400"></i>
+                    <h3 class="text-xl font-semibold mb-2">Advanced AI</h3>
+                    <p>Powered by cutting-edge machine learning algorithms for natural conversations.</p>
+                </div>
+                <div class="glass p-6 rounded-lg text-center">
+                    <i class="fas fa-lock text-4xl mb-4 text-purple-400"></i>
+                    <h3 class="text-xl font-semibold mb-2">Secure & Private</h3>
+                    <p>Your data is encrypted and protected. We prioritize your privacy.</p>
+                </div>
+                <div class="glass p-6 rounded-lg text-center">
+                    <i class="fas fa-cogs text-4xl mb-4 text-indigo-400"></i>
+                    <h3 class="text-xl font-semibold mb-2">Customizable</h3>
+                    <p>Tailor Vox to your needs with personalized settings and integrations.</p>
+                </div>
+            </div>
+        </section>
+    </main>
 
+    <!-- Floating Voice Button -->
+    <button id="start-listening" class="fixed bottom-10 right-10 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white p-4 rounded-full shadow-lg transition duration-300 ease-in-out transform hover:scale-110 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">
+        <i class="fas fa-microphone text-2xl"></i>
+    </button>
+
+    <footer class="glass mt-16 py-8 w-full">
+        <div class="container mx-auto px-4 text-center">
+            <p>&copy; Vox AI. All rights reserved.</p>
+            <div class="mt-4 space-x-4">
+                </div>
+        </div>
+    </footer>
 </body>
 </html>
-
 </div>
 
     
